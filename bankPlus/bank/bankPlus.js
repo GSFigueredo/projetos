@@ -1,5 +1,7 @@
 class users {
-    constructor(cpf, email, telefone, senha, confsenha) {
+    constructor(nomeP, nomeS, cpf, email, telefone, senha, confsenha) {
+        this.nomeP = nomeP
+        this.nomeS = nomeS
         this.cpf = cpf
         this.email = email
         this.telefone = telefone
@@ -85,6 +87,8 @@ function mostraModal(tipo, teste) {
 
 function capturarDados() {
     let usuario = {
+        nomeP: document.getElementById('nomeP').value,
+        nomeS: document.getElementById('nomeS').value,
         cpf: document.getElementById('cpf').value,
         email: document.getElementById('email').value,
         telefone: document.getElementById('telefone').value,
@@ -98,7 +102,7 @@ function capturarDados() {
 
 function cadastrarUser(usuario) {
 
-    let user = new users (usuario.cpf, usuario.email, usuario.telefone, usuario.senha, usuario.confsenha);
+    let user = new users (usuario.nomeP, usuario.nomeS, usuario.cpf, usuario.email, usuario.telefone, usuario.senha, usuario.confsenha);
 
     if(user.validarSenha(user) == true && user.validarDados(user) == true) {
         mostraModal('sucesso', true)
@@ -115,4 +119,10 @@ function cadastrarUser(usuario) {
         }
     }
 
+}
+
+// Login usuário
+
+function logarUsuario() {
+    console.log('Botão logar apertado')
 }
