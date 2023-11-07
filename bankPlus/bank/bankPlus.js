@@ -30,6 +30,19 @@ class users {
         }
     }
 
+
+    verificarRegistro(user) {
+        let valido = false
+
+        for (let i in user) {
+            if (user.cpf == ) {
+                valido = true
+                break;
+            }
+        }
+
+        return valido
+    }
 }
 
 class gravadorC {
@@ -124,5 +137,15 @@ function cadastrarUser(usuario) {
 // Login usuário
 
 function logarUsuario() {
-    console.log('Botão logar apertado')
+    let user = {
+        nomeP: document.getElementById('nomePLogin').value,
+        nomeS: document.getElementById('cpfLogin').value,
+        senha: document.getElementById('senhaLogin').value
+    }
+
+    verificarLogin(user);
+}
+
+function verificarLogin(usuario) {
+    let user = 
 }
