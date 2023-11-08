@@ -317,22 +317,28 @@ function mostraElemento(tipo, despesaF) {
 
         despesa.forEach(
             function (v) {
-                let linha = despesaList.insertRow();
 
-                linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
-                linha.insertCell(1).innerHTML = v.tipo;
-                linha.insertCell(2).innerHTML = v.desc;
-                linha.insertCell(3).innerHTML = `${v.valor}R$`;
+                if (v.registro == 'despesa') {
+                    let linha = despesaList.insertRow();
 
-                let botao = document.createElement('button');
-                botao.className = 'btn btn-danger btn-sm fw-bold';
-                botao.innerHTML = 'X'
-                botao.id = v.id
+                    linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
+                    linha.insertCell(1).innerHTML = v.tipo;
+                    linha.insertCell(2).innerHTML = v.desc;
+                    linha.insertCell(3).innerHTML = `${v.valor}R$`;
 
-                linha.insertCell(4).append(botao);
-                botao.onclick = () => {
-                    gravador.removerDados(botao.id)
-                };
+                    let botao = document.createElement('button');
+                    botao.className = 'btn btn-danger btn-sm fw-bold';
+                    botao.innerHTML = 'X'
+                    botao.id = v.id
+
+                    linha.insertCell(4).append(botao);
+                    botao.onclick = () => {
+                        gravador.removerDados(botao.id)
+                    };
+
+                } else {
+
+                }
             }
         )
     }

@@ -59,14 +59,14 @@ class usersLogin {
         for (let c = 1; c <= id; c++) {
 
             let usuario = JSON.parse(localStorage.getItem(c))
-            
-            if (usuario.registro == 'usuario') {
+
+            if (usuario.registro == null || usuario.registro == undefined || usuario.registro == '') {
+                // não faça nada
+            } else if(usuario.registro == 'usuario'){
                 if (user.cpf === usuario.cpf) {
                     valido = true
                     break;
                 }
-            } else {
-            
             }
         }
         return valido
@@ -138,7 +138,7 @@ function mostraModal(tipo, teste) {
     if (tipo == 'login' && teste == true) {
         $('#mostraModal').modal('show');
 
-        document.getElementById('modal-tit').innerHTML = 'Login tcompleto'
+        document.getElementById('modal-tit').innerHTML = 'Login completo'
         document.getElementById('modal-corp').innerHTML = 'Redirecionando a página'
         document.getElementById('modal-but').innerHTML = 'Fechar'
 
@@ -217,15 +217,19 @@ function verificarLogin(usuario) {
     } else if (user.verificarCadastro(user) == false) {
         mostraModal('login', false);
     } else {
+        usuarioLogado(user)
+
         mostraModal('login', true)
 
-        usuarioLogado(user);
-        /*setTimeout(() => {
+        setTimeout(() => {
             window.location.href = 'index.html'
-        }, 2000); */
+        }, 2000);
+
     }
 }
 
 function usuarioLogado(user) {
-    
+    let link = document.getElementById('login')
+
+    link.textContent = 'Logado'
 }
