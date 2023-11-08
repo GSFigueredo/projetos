@@ -1,13 +1,14 @@
 // ---------------------------- Objeto despesa ---------------------------- //
 
 class despesa {
-    constructor(ano, mes, dia, tipo, desc, valor) {
+    constructor(ano, mes, dia, tipo, desc, valor, registro) {
         this.ano = ano,
             this.mes = mes,
             this.dia = dia,
             this.tipo = tipo,
             this.desc = desc,
-            this.valor = valor
+            this.valor = valor,
+            this.registro = registro
     }
 
     validarDados(despesa) {
@@ -81,21 +82,28 @@ class gravadorDados {
     }
 
     getProximoId() {
-        return this.c++
+        let id = Number(localStorage.getItem('id'));
+
+        if (!id || isNaN(id)) {
+            this.c = 1;
+        } else {
+            this.c = Number(localStorage.getItem('id')) + 1;
+        }
+
+        return this.c;
     }
 
     gravarDados(despesa) {
-        let cont = this.getProximoId()
+
+        let cont = this.getProximoId();
         let id = 'id'
 
         localStorage.setItem(cont, JSON.stringify(despesa))
-
         localStorage.setItem(id, JSON.stringify(cont))
 
     }
 
-    removerDados(id)
- {
+    removerDados(id) {
         localStorage.removeItem(id)
 
 
@@ -107,12 +115,10 @@ class gravadorDados {
         let despesas = Array();
         let id = localStorage.getItem('id')
 
-        //let despesa;
-
         for (let chave = -1; chave <= id; chave++) {
 
             if (localStorage.getItem(chave) == '' || localStorage.getItem(chave) == null || localStorage.getItem(chave) == localStorage.getItem(chave - 1)) {
-                
+
             } else {
                 let despesa = JSON.parse(localStorage.getItem(chave))
                 despesa.id = chave;
@@ -245,7 +251,7 @@ function cadastrarDespesas() {
 
     let valores = capturarValores();
 
-    let valorDespesas = new despesa(valores.ano, valores.mes, valores.dia, valores.tipo, valores.desc, valores.valor)
+    let valorDespesas = new despesa(valores.ano, valores.mes, valores.dia, valores.tipo, valores.desc, valores.valor, 'despesa')
 
     if (valorDespesas.validarDados(valorDespesas) == false) {
         tratarModal('validar', false)
@@ -264,6 +270,7 @@ function cadastrarDespesas() {
 function carregarDespesas() {
 
     let despesa = gravador.carregarDados();
+    console.log(despesa)
 
     mostraElemento('consultar', despesa);
 }
@@ -279,22 +286,27 @@ function mostraElemento(tipo, despesaF) {
     if (tipo == 'consultar') {
         despesa.forEach(
             function (v) {
-                let linha = despesaList.insertRow();
 
-                linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
-                linha.insertCell(1).innerHTML = v.tipo;
-                linha.insertCell(2).innerHTML = v.desc;
-                linha.insertCell(3).innerHTML = `${v.valor}R$`;
+                if (v.registro == 'despesa') {
+                    let linha = despesaList.insertRow();
 
-                let botao = document.createElement('button');
-                botao.className = 'btn btn-danger btn-sm';
-                botao.innerHTML = 'X'
-                botao.id = v.id
+                    linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
+                    linha.insertCell(1).innerHTML = v.tipo;
+                    linha.insertCell(2).innerHTML = v.desc;
+                    linha.insertCell(3).innerHTML = `${v.valor}R$`;
 
-                linha.insertCell(4).append(botao);
-                botao.onclick = () => {
-                    gravador.removerDados(botao.id)
-                };
+                    let botao = document.createElement('button');
+                    botao.className = 'btn btn-danger btn-sm';
+                    botao.innerHTML = 'X'
+                    botao.id = v.id
+
+                    linha.insertCell(4).append(botao);
+                    botao.onclick = () => {
+                        gravador.removerDados(botao.id)
+                    };
+                } else {
+
+                }
             }
         )
     }

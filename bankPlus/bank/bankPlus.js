@@ -1,5 +1,5 @@
 class users {
-    constructor(nomeP, nomeS, cpf, email, telefone, senha, confsenha) {
+    constructor(nomeP, nomeS, cpf, email, telefone, senha, confsenha, registro) {
         this.nomeP = nomeP
         this.nomeS = nomeS
         this.cpf = cpf
@@ -7,6 +7,7 @@ class users {
         this.telefone = telefone
         this.senha = senha
         this.confsenha = confsenha
+        this.registro = registro
     }
 
     validarDados(user) {
@@ -23,47 +24,84 @@ class users {
     }
 
     validarSenha(user) {
-        if(user.senha != user.confsenha) {
+        if (user.senha != user.confsenha) {
             return false;
         } else {
             return true;
         }
     }
+}
+class usersLogin {
+    constructor(nomeP, cpf, senha, registro) {
+        this.nomeP = nomeP
+        this.cpf = cpf
+        this.senha = senha
+        this.registro = registro
+    }
 
-
-    verificarRegistro(user) {
-        let valido = false
+    validarDados(user) {
+        let valido = true
 
         for (let i in user) {
-            if (user.cpf == ) {
-                valido = true
+            if (user[i] == undefined || user[i] == '' || user[i] == null) {
+                valido = false
                 break;
             }
         }
 
         return valido
     }
-}
 
+    verificarCadastro(user) {
+        let valido = false
+        let id = localStorage.getItem('id');
+
+        for (let c = 1; c <= id; c++) {
+
+            let usuario = JSON.parse(localStorage.getItem(c))
+            
+            if (usuario.registro == 'usuario') {
+                if (user.cpf === usuario.cpf) {
+                    valido = true
+                    break;
+                }
+            } else {
+            
+            }
+        }
+        return valido
+    }
+}
 class gravadorC {
     constructor() {
-        this.cont = 1;
+        this.c = 0;
     }
 
     idDinamico() {
-        return this.cont++;
+        let id = Number(localStorage.getItem('id'));
+
+        if (!id || isNaN(id)) {
+            this.c = 1;
+        } else {
+            this.c = Number(localStorage.getItem('id')) + 1;
+        }
+
+        return this.c;
     }
 
     gravarLocal(user) {
-        let cont = Number(this.idDinamico());
+        let cont = this.idDinamico();
+        let id = 'id'
+
         localStorage.setItem(cont, JSON.stringify(user))
+        localStorage.setItem(id, JSON.stringify(cont))
     }
 }
 
 let gravador = new gravadorC();
 
 function mostraModal(tipo, teste) {
-    if(tipo == 'senha' && teste == false) {
+    if (tipo == 'senha' && teste == false) {
         $('#mostraModal').modal('show');
         document.getElementById('modal-tit').innerHTML = 'As senha não condizem'
         document.getElementById('modal-corp').innerHTML = 'Valores diferentes'
@@ -72,9 +110,9 @@ function mostraModal(tipo, teste) {
         document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
-    } 
+    }
 
-    if(tipo == 'vazio' && teste == false) {
+    if (tipo == 'vazio' && teste == false) {
         $('#mostraModal').modal('show');
         document.getElementById('modal-tit').innerHTML = 'Existem campos não preenchidos'
         document.getElementById('modal-corp').innerHTML = 'Campos vazios'
@@ -83,8 +121,8 @@ function mostraModal(tipo, teste) {
         document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
-    } 
-    
+    }
+
     if (tipo == 'sucesso' && teste == true) {
         $('#mostraModal').modal('show');
 
@@ -95,6 +133,30 @@ function mostraModal(tipo, teste) {
         document.getElementById('tit-cor').className = 'modal-header text-success fw-bold'
         document.getElementById('modal-corp').className = 'modal-header text-success fw-bold'
         document.getElementById('modal-but').className = 'btn btn-success fw-bold'
+    }
+
+    if (tipo == 'login' && teste == true) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Login tcompleto'
+        document.getElementById('modal-corp').innerHTML = 'Redirecionando a página'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-success fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-success fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-success fw-bold'
+    }
+
+    if (tipo == 'login' && teste == false) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Login incompleto'
+        document.getElementById('modal-corp').innerHTML = 'Não foi encontrada nenhuma conta vinculada a este CPF'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
     }
 }
 
@@ -115,9 +177,9 @@ function capturarDados() {
 
 function cadastrarUser(usuario) {
 
-    let user = new users (usuario.nomeP, usuario.nomeS, usuario.cpf, usuario.email, usuario.telefone, usuario.senha, usuario.confsenha);
+    let user = new users(usuario.nomeP, usuario.nomeS, usuario.cpf, usuario.email, usuario.telefone, usuario.senha, usuario.confsenha, 'usuario');
 
-    if(user.validarSenha(user) == true && user.validarDados(user) == true) {
+    if (user.validarSenha(user) == true && user.validarDados(user) == true) {
         mostraModal('sucesso', true)
         gravador.gravarLocal(user);
 
@@ -125,7 +187,7 @@ function cadastrarUser(usuario) {
             window.location.href = 'index.html'
         }, 2000);
     } else {
-        if(user.validarSenha(user) == false) {
+        if (user.validarSenha(user) == false) {
             mostraModal('senha', false)
         } else if (user.validarDados(user) == false) {
             mostraModal('vazio', false)
@@ -139,13 +201,31 @@ function cadastrarUser(usuario) {
 function logarUsuario() {
     let user = {
         nomeP: document.getElementById('nomePLogin').value,
-        nomeS: document.getElementById('cpfLogin').value,
-        senha: document.getElementById('senhaLogin').value
+        cpf: document.getElementById('cpfLogin').value,
+        senha: document.getElementById('senhaLogin').value,
+        registro: 'usuario'
     }
 
     verificarLogin(user);
 }
 
 function verificarLogin(usuario) {
-    let user = 
+    let user = new usersLogin(usuario.nomeP, usuario.cpf, usuario.senha, usuario.registro)
+
+    if (user.validarDados(user) == false) {
+        mostraModal('vazio', false)
+    } else if (user.verificarCadastro(user) == false) {
+        mostraModal('login', false);
+    } else {
+        mostraModal('login', true)
+
+        usuarioLogado(user);
+        /*setTimeout(() => {
+            window.location.href = 'index.html'
+        }, 2000); */
+    }
+}
+
+function usuarioLogado(user) {
+    
 }
