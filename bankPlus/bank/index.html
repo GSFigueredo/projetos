@@ -27,7 +27,7 @@
 
 </head>
 
-<body class="overflow-x-hidden overflow-y-auto">
+<body onload="alterarBotao()" class="overflow-x-hidden overflow-y-auto">
     <div style="background-color: #820AD1;">
         <header style="background-color: #820AD1;" class="container">
             <div class="row">
@@ -45,8 +45,10 @@
                             <div class="collapse navbar-collapse" id="nav">
                                 <ul class="navbar-nav list-unstyled">
                                     <li class="nav-item px-1"> <a class="nav-link mouseCima" href="/bankPlus/bank/index.html"> Home</a></li>
-                                    <li class="nav-item px-1"> <a class="nav-link mouseCima" href="/bankPlus/despesas/index.html"> Despesas Pessoais</a></li>
-                                    <li class="nav-item px-1"> <a class="nav-link text-decoration-none mouseCima" href="/bankPlus/bank/login.html">Entrar</a></li>
+                                    <li class="nav-item px-1"><button onclick="checarLogin()" class="nav-link mouseCima border-0"> Despesas pessoais</button></li>
+                                    <!-- <li class="nav-item px-1"> <a class="nav-link text-decoration-none mouseCima" href="/bankPlus/bank/login.html">Entrar</a></li> -->
+                                    <!--  <li class="nav-item px-1"><button onclick="sairLogin()" class="nav-link mouseCima border-0"> Sair</button></li> -->
+                                    <li id="btDinamico" class="nav-item px-1"> </li>
                                 </ul>
                             </div>
                         </div>
@@ -109,10 +111,6 @@
                     Com gráficos simples, você sabe de onde vem e para onde
                     vai o seu dinheiro.
                 </p>
-
-                <button style="background-color: #820AD1;" class="btn mouseCima">
-                    Veja mais...
-                </button>
             </div>
 
             <div class="col-sm-6 col-md-6 text-center">
@@ -137,9 +135,6 @@
                     avisa você: reeba alertas de contas a pagar e a receber!
                 </p>
 
-                <button style="background-color: #820AD1;" class="btn mouseCima">
-                    Veja mais...
-                </button>
             </div>
         </div>
     </section>
@@ -186,6 +181,25 @@
         </div>
     </section>
     <hr>
+
+    <div class="modal fade" id="mostraModal" tabindex="-1" role="dialog" aria-labelledby="sucesso">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="tit-cor">
+                    <h5 id="modal-tit" class="modal-title">Titulo modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="modal-corp" class="modal-body">
+                    Corpo modal
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-but" type="button" data-bs-dismiss="modal">
+                        Botão modal
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </main>
     <footer class="container">
         <div class="row">

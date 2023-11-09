@@ -1,3 +1,9 @@
+if (localStorage.getItem('login') === 'true') {
+    localStorage.setItem('login', 'true')
+} else {
+    localStorage.setItem('login', 'false')
+}
+
 class users {
     constructor(nomeP, nomeS, cpf, email, telefone, senha, confsenha, registro) {
         this.nomeP = nomeP
@@ -62,7 +68,7 @@ class usersLogin {
 
             if (usuario.registro == null || usuario.registro == undefined || usuario.registro == '') {
                 // não faça nada
-            } else if(usuario.registro == 'usuario'){
+            } else if (usuario.registro == 'usuario') {
                 if (user.cpf === usuario.cpf) {
                     valido = true
                     break;
@@ -158,6 +164,18 @@ function mostraModal(tipo, teste) {
         document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
     }
+
+    if (tipo == 'logadoTOF' && teste == false) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Sem login'
+        document.getElementById('modal-corp').innerHTML = 'Você precisa estar logado para acessar a tela de despesas'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
+    }
 }
 
 function capturarDados() {
@@ -210,6 +228,7 @@ function logarUsuario() {
 }
 
 function verificarLogin(usuario) {
+
     let user = new usersLogin(usuario.nomeP, usuario.cpf, usuario.senha, usuario.registro)
 
     if (user.validarDados(user) == false) {
@@ -217,9 +236,9 @@ function verificarLogin(usuario) {
     } else if (user.verificarCadastro(user) == false) {
         mostraModal('login', false);
     } else {
-        usuarioLogado(user)
-
         mostraModal('login', true)
+
+        usuarioLogado();
 
         setTimeout(() => {
             window.location.href = 'index.html'
@@ -228,8 +247,52 @@ function verificarLogin(usuario) {
     }
 }
 
-function usuarioLogado(user) {
-    let link = document.getElementById('login')
+function usuarioLogado() {
+    localStorage.setItem('login', 'true') 
+}
 
-    link.textContent = 'Logado'
+function checarLogin() {
+    if (localStorage.getItem('login') == 'true') {
+        window.location.href = '/bankPlus/despesas/index.html'
+    } else if(localStorage.getItem('login') == 'false'){
+
+        mostraModal('logadoTOF', false)
+
+        setTimeout(() => {
+            window.location.href = '/bankPlus/bank/login.html'
+        }, 3000);
+    }
+}
+
+function sairLogin() {
+    localStorage.setItem('login', 'false') 
+
+    setTimeout(() => {
+        window.location.href = '/bankPlus/bank/index.html'
+    }, 2000);
+}
+
+function alterarBotao() {
+
+    if (localStorage.getItem('login') == 'true') {
+        let btDinamico = document.getElementById('btDinamico')
+        let btTrue = document.createElement('button'); 
+        btTrue.className = 'mouseCima nav-link border-0';
+        btTrue.innerHTML = 'Sair'
+        btDinamico.appendChild(btTrue)
+
+        btTrue.onclick = sairLogin;
+
+    } else if(localStorage.getItem('login') == 'false'){
+
+        let btDinamico = document.getElementById('btDinamico')
+        let btTrue = document.createElement('button'); 
+        btTrue.className = 'mouseCima nav-link border-0';
+        btTrue.innerHTML = 'Entrar'
+        btDinamico.appendChild(btTrue)
+
+        btTrue.onclick = () => {
+            window.location.href = '/bankPlus/bank/login.html'
+        }
+    }
 }
