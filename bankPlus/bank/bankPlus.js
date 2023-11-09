@@ -238,7 +238,7 @@ function verificarLogin(usuario) {
     } else {
         mostraModal('login', true)
 
-        usuarioLogado();
+        usuarioLogado(user);
 
         setTimeout(() => {
             window.location.href = 'index.html'
@@ -247,8 +247,9 @@ function verificarLogin(usuario) {
     }
 }
 
-function usuarioLogado() {
+function usuarioLogado(user) {
     localStorage.setItem('login', 'true') 
+    localStorage.setItem('cpfLogado', user.cpf)
 }
 
 function checarLogin() {

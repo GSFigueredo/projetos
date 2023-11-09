@@ -97,6 +97,7 @@ class gravadorDados {
 
         let cont = this.getProximoId();
         let id = 'id'
+        despesa.cpfLogado = localStorage.getItem('cpfLogado')
 
         localStorage.setItem(cont, JSON.stringify(despesa))
         localStorage.setItem(id, JSON.stringify(cont))
@@ -287,7 +288,9 @@ function mostraElemento(tipo, despesaF) {
         despesa.forEach(
             function (v) {
 
-                if (v.registro == 'despesa') {
+                let cpfLogado = localStorage.getItem('cpfLogado')
+
+                if (v.registro == 'despesa' && v.cpfLogado == cpfLogado) {
                     let linha = despesaList.insertRow();
 
                     linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
@@ -318,7 +321,9 @@ function mostraElemento(tipo, despesaF) {
         despesa.forEach(
             function (v) {
 
-                if (v.registro == 'despesa') {
+                let cpfLogado = localStorage.getItem('cpfLogado')
+
+                if (v.registro == 'despesa' && v.cpfLogado == cpfLogado) {
                     let linha = despesaList.insertRow();
 
                     linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
