@@ -38,10 +38,11 @@ class users {
     }
 }
 class usersLogin {
-    constructor(nomeP, cpf, senha, registro) {
+    constructor(nomeP, cpf, senha, confsenha, registro) {
         this.nomeP = nomeP
         this.cpf = cpf
         this.senha = senha
+        this.confsenha = confsenha
         this.registro = registro
     }
 
@@ -66,9 +67,7 @@ class usersLogin {
 
             let usuario = JSON.parse(localStorage.getItem(c))
 
-            if (usuario.registro == null || usuario.registro == undefined || usuario.registro == '') {
-                // não faça nada
-            } else if (usuario.registro == 'usuario') {
+            if (usuario.registro == 'usuario') {
                 if (user.cpf === usuario.cpf) {
                     valido = true
                     break;
@@ -76,6 +75,46 @@ class usersLogin {
             }
         }
         return valido
+    }
+
+    validarLogin(user) {
+        let valido = false
+        let id = localStorage.getItem('id');
+
+        for (let c = 1; c <= id; c++) {
+
+            let usuario = JSON.parse(localStorage.getItem(c))
+
+            if (usuario.registro == 'usuario') {
+                if (user.nomeP === usuario.nomeP && user.senha === usuario.senha) {
+                    valido = true
+                    break;
+                }
+            }
+        }
+        return valido
+    }
+
+    alterarSenha(user) {
+
+        if (user.senha != user.confsenha) {
+            mostraModal('senha', false);
+        } else {
+
+            let id = localStorage.getItem('id');
+
+            for (let c = 1; c <= id; c++) {
+
+                let usuario = JSON.parse(localStorage.getItem(c))
+
+                if (usuario.registro == 'usuario') {
+                    if (user.cpf == usuario.cpf) {
+                        usuario.senha = user.senha
+                        localStorage.setItem(c, JSON.stringify(usuario))
+                    }
+                }
+            }
+        }
     }
 }
 class gravadorC {
@@ -176,6 +215,30 @@ function mostraModal(tipo, teste) {
         document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
     }
+
+    if (tipo == 'userAltErr' && teste == false) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Dados incorretos'
+        document.getElementById('modal-corp').innerHTML = 'Usuário inválido'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
+    }
+
+    if (tipo == 'loginErrado' && teste == false) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Dados incorretos'
+        document.getElementById('modal-corp').innerHTML = 'Usuário ou senha inválida'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
+    }
 }
 
 function capturarDados() {
@@ -216,46 +279,91 @@ function cadastrarUser(usuario) {
 
 // Login usuário
 
-function logarUsuario() {
-    let user = {
-        nomeP: document.getElementById('nomePLogin').value,
-        cpf: document.getElementById('cpfLogin').value,
-        senha: document.getElementById('senhaLogin').value,
-        registro: 'usuario'
+function logarUsuario(tipo) {
+    let user;
+
+    if (tipo == 'login') {
+        user = {
+            nomeP: document.getElementById('nomePLogin').value,
+            cpf: document.getElementById('cpfLogin').value,
+            senha: document.getElementById('senhaLogin').value,
+            confsenha: document.getElementById('senhaLogin').value,
+            registro: 'usuario'
+        }
+
+        verificarLogin('login', user);
     }
 
-    verificarLogin(user);
+    if (tipo == 'alterarSenha') {
+        user = {
+            nomeP: document.getElementById('nomePalterar').value,
+            cpf: document.getElementById('cpfAlterar').value,
+            senha: document.getElementById('senhaAlterar').value,
+            confsenha: document.getElementById('confsenhaAlterar').value,
+            registro: 'usuario'
+        }
+
+        verificarLogin('alterarSenha', user)
+
+    }
 }
 
-function verificarLogin(usuario) {
+function verificarLogin(tipo, usuario) {
+    let user;
 
-    let user = new usersLogin(usuario.nomeP, usuario.cpf, usuario.senha, usuario.registro)
+    if (tipo == 'login') {
 
-    if (user.validarDados(user) == false) {
-        mostraModal('vazio', false)
-    } else if (user.verificarCadastro(user) == false) {
-        mostraModal('login', false);
-    } else {
-        mostraModal('login', true)
+        user = new usersLogin(usuario.nomeP, usuario.cpf, usuario.senha, usuario.senha, usuario.registro)
 
-        usuarioLogado(user);
+        if (user.validarDados(user) == false) {
+            mostraModal('vazio', false)
+        } else if (user.verificarCadastro(user) == false) {
+            mostraModal('login', false);
+        } else {
 
-        setTimeout(() => {
-            window.location.href = 'index.html'
-        }, 2000);
+            if (user.validarLogin(user) == true) {
+
+                mostraModal('login', true)
+
+                usuarioLogado(user);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html'
+                }, 2000);
+            } else {
+                mostraModal('loginErrado', false)
+            }
+        }
 
     }
+
+    if (tipo == 'alterarSenha') {
+        user = new usersLogin(usuario.nomeP, usuario.cpf, usuario.senha, usuario.confsenha, usuario.registro)
+
+        if (user.validarDados(user) == false) {
+            mostraModal('vazio', false)
+        } else if (user.verificarCadastro(user) == false) {
+            mostraModal('login', false);
+        } else {
+            if (user.validarLogin(user) == false) {
+                mostraModal('userAltErr', false)
+            } else {
+                user.alterarSenha(user);
+            }
+        }
+    }
+
 }
 
 function usuarioLogado(user) {
-    localStorage.setItem('login', 'true') 
+    localStorage.setItem('login', 'true')
     localStorage.setItem('cpfLogado', user.cpf)
 }
 
 function checarLogin() {
     if (localStorage.getItem('login') == 'true') {
         window.location.href = '/bankPlus/despesas/index.html'
-    } else if(localStorage.getItem('login') == 'false'){
+    } else if (localStorage.getItem('login') == 'false') {
 
         mostraModal('logadoTOF', false)
 
@@ -266,7 +374,8 @@ function checarLogin() {
 }
 
 function sairLogin() {
-    localStorage.setItem('login', 'false') 
+    localStorage.setItem('login', 'false')
+    localStorage.setItem('cpfLogado', 'false')
 
     setTimeout(() => {
         window.location.href = '/bankPlus/bank/index.html'
@@ -277,17 +386,17 @@ function alterarBotao() {
 
     if (localStorage.getItem('login') == 'true') {
         let btDinamico = document.getElementById('btDinamico')
-        let btTrue = document.createElement('button'); 
+        let btTrue = document.createElement('button');
         btTrue.className = 'mouseCima nav-link border-0';
         btTrue.innerHTML = 'Sair'
         btDinamico.appendChild(btTrue)
 
         btTrue.onclick = sairLogin;
 
-    } else if(localStorage.getItem('login') == 'false'){
+    } else if (localStorage.getItem('login') == 'false') {
 
         let btDinamico = document.getElementById('btDinamico')
-        let btTrue = document.createElement('button'); 
+        let btTrue = document.createElement('button');
         btTrue.className = 'mouseCima nav-link border-0';
         btTrue.innerHTML = 'Entrar'
         btDinamico.appendChild(btTrue)
