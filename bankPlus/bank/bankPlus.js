@@ -83,7 +83,7 @@ class usersLogin {
         let id = localStorage.getItem('id');
 
 
-        if (tipo == 'login') {
+        if (tipo === 'login') {
             for (let c = 1; c <= id; c++) {
 
                 let usuario = JSON.parse(localStorage.getItem(c))
@@ -99,13 +99,13 @@ class usersLogin {
             return valido;
         }
 
-        if (tipo == 'alteracao') {
+        if (tipo === 'alteracao') {
             for (let c = 1; c <= id; c++) {
 
                 let usuario = JSON.parse(localStorage.getItem(c))
 
                 if (usuario.registro == 'usuario') {
-                    if (user.nomeP == usuario.nomeP) {
+                    if (user.nomeP == usuario.nomeP && user.cpf == usuario.cpf) {
                         valido = true
                         break;
                     }
