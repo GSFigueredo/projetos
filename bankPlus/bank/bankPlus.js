@@ -77,28 +77,50 @@ class usersLogin {
         return valido
     }
 
-    validarLogin(user) {
+    validarLogin(tipo, user) {
+
         let valido = false
         let id = localStorage.getItem('id');
 
-        for (let c = 1; c <= id; c++) {
 
-            let usuario = JSON.parse(localStorage.getItem(c))
+        if (tipo == 'login') {
+            for (let c = 1; c <= id; c++) {
 
-            if (usuario.registro == 'usuario') {
-                if (user.nomeP === usuario.nomeP && user.senha === usuario.senha) {
-                    valido = true
-                    break;
+                let usuario = JSON.parse(localStorage.getItem(c))
+
+                if (usuario.registro == 'usuario') {
+                    if (user.nomeP == usuario.nomeP && user.senha === usuario.senha) {
+                        valido = true
+                        break;
+                    }
                 }
             }
+
+            return valido;
         }
-        return valido
+
+        if (tipo == 'alteracao') {
+            for (let c = 1; c <= id; c++) {
+
+                let usuario = JSON.parse(localStorage.getItem(c))
+
+                if (usuario.registro == 'usuario') {
+                    if (user.nomeP == usuario.nomeP) {
+                        valido = true
+                        break;
+                    }
+                }
+            }
+
+            return valido;
+        }
     }
 
     alterarSenha(user) {
 
         if (user.senha != user.confsenha) {
             mostraModal('senha', false);
+            return false;
         } else {
 
             let id = localStorage.getItem('id');
@@ -111,6 +133,7 @@ class usersLogin {
                     if (user.cpf == usuario.cpf) {
                         usuario.senha = user.senha
                         localStorage.setItem(c, JSON.stringify(usuario))
+                        return true;
                     }
                 }
             }
@@ -239,6 +262,18 @@ function mostraModal(tipo, teste) {
         document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
         document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
     }
+
+    if (tipo == 'altSenha' && teste == true) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Senha alterada'
+        document.getElementById('modal-corp').innerHTML = 'Redirecionando a página'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-success fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-success fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-success fw-bold'
+    }
 }
 
 function capturarDados() {
@@ -321,7 +356,7 @@ function verificarLogin(tipo, usuario) {
             mostraModal('login', false);
         } else {
 
-            if (user.validarLogin(user) == true) {
+            if (user.validarLogin('login', user) == true) {
 
                 mostraModal('login', true)
 
@@ -344,15 +379,17 @@ function verificarLogin(tipo, usuario) {
             mostraModal('vazio', false)
         } else if (user.verificarCadastro(user) == false) {
             mostraModal('login', false);
-        } else {
-            if (user.validarLogin(user) == false) {
-                mostraModal('userAltErr', false)
-            } else {
-                user.alterarSenha(user);
-            }
+        } else if (user.validarLogin('alteracao', user) == false) {
+            mostraModal('userAltErr', false)
+        } else if (user.alterarSenha(user) == true) {
+
+            mostraModal('altSenha', true);
+
+            setTimeout(() => {
+                window.location.href = '/bankPlus/bank/index.html'
+            }, 3000);
         }
     }
-
 }
 
 function usuarioLogado(user) {
