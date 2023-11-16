@@ -29,6 +29,24 @@ class users {
         return valido
     }
 
+    validarCpf(user) {
+        let valido = false
+        let id = localStorage.getItem('id');
+
+        for (let c = 1; c <= id; c++) {
+
+            let usuario = JSON.parse(localStorage.getItem(c))
+
+            if (usuario.registro == 'usuario') {
+                if(user.cpf == usuario.cpf) {
+                    valido = true;
+                    break;
+                }
+            }
+        }
+        return valido
+    }
+
     validarSenha(user) {
         if (user.senha != user.confsenha) {
             return false;
@@ -195,7 +213,7 @@ function mostraModal(tipo, teste) {
         $('#mostraModal').modal('show');
 
         document.getElementById('modal-tit').innerHTML = 'Cadastro completo'
-        document.getElementById('modal-corp').innerHTML = 'Cadastro feito com sucesso'
+        document.getElementById('modal-corp').innerHTML = 'Redirecionando a página'
         document.getElementById('modal-but').innerHTML = 'Fechar'
 
         document.getElementById('tit-cor').className = 'modal-header text-success fw-bold'
@@ -274,6 +292,18 @@ function mostraModal(tipo, teste) {
         document.getElementById('modal-corp').className = 'modal-header text-success fw-bold'
         document.getElementById('modal-but').className = 'btn btn-success fw-bold'
     }
+
+    if (tipo == 'cadastroS' && teste == true) {
+        $('#mostraModal').modal('show');
+
+        document.getElementById('modal-tit').innerHTML = 'Cadastro já existente'
+        document.getElementById('modal-corp').innerHTML = 'Já existe uma conta vinculada a este cpf'
+        document.getElementById('modal-but').innerHTML = 'Fechar'
+
+        document.getElementById('tit-cor').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-corp').className = 'modal-header text-danger fw-bold'
+        document.getElementById('modal-but').className = 'btn btn-danger fw-bold'
+    }
 }
 
 function capturarDados() {
@@ -295,18 +325,24 @@ function cadastrarUser(usuario) {
 
     let user = new users(usuario.nomeP, usuario.nomeS, usuario.cpf, usuario.email, usuario.telefone, usuario.senha, usuario.confsenha, 'usuario');
 
-    if (user.validarSenha(user) == true && user.validarDados(user) == true) {
+    if (user.validarSenha(user) == true && user.validarDados(user) == true && user.validarCpf(user) == false) {
         mostraModal('sucesso', true)
         gravador.gravarLocal(user);
 
         setTimeout(() => {
-            window.location.href = 'index.html'
+            logarUsuario('loginC', user)
         }, 2000);
+
+        /*setTimeout(() => {
+            window.location.href = 'index.html'
+        }, 2000);*/
     } else {
         if (user.validarSenha(user) == false) {
             mostraModal('senha', false)
         } else if (user.validarDados(user) == false) {
             mostraModal('vazio', false)
+        } else if(user.validarCpf(user) == true) {
+            mostraModal('cadastroS', true)
         }
     }
 
@@ -314,7 +350,7 @@ function cadastrarUser(usuario) {
 
 // Login usuário
 
-function logarUsuario(tipo) {
+function logarUsuario(tipo, usuario) {
     let user;
 
     if (tipo == 'login') {
@@ -327,6 +363,18 @@ function logarUsuario(tipo) {
         }
 
         verificarLogin('login', user);
+    }
+
+    if(tipo == 'loginC') {
+        user = {
+            nomeP: usuario.nomeP, 
+            cpf: usuario.cpf, 
+            senha: usuario.senha,
+            confsenha: usuario.confsenha,
+            registro: 'usuario'
+        }
+
+        verificarLogin('loginC', user);
     }
 
     if (tipo == 'alterarSenha') {
@@ -370,6 +418,14 @@ function verificarLogin(tipo, usuario) {
             }
         }
 
+    }
+
+    if(tipo == 'loginC') {
+        usuarioLogado(usuario);
+
+        setTimeout(() => {
+            window.location.href = 'index.html'
+        }, 1500);
     }
 
     if (tipo == 'alterarSenha') {
