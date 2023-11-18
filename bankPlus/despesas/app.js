@@ -283,6 +283,7 @@ function mostraElemento(tipo, despesaF) {
     despesa = despesaF;
 
     let despesaList = document.getElementById('listaDespesas');
+    let despesaSoma = document.getElementById('somaDespesas');
 
     if (tipo == 'consultar') {
         despesa.forEach(
@@ -291,6 +292,7 @@ function mostraElemento(tipo, despesaF) {
                 let cpfLogado = localStorage.getItem('cpfLogado')
 
                 if (v.registro == 'despesa' && v.cpfLogado == cpfLogado) {
+
                     let linha = despesaList.insertRow();
 
                     linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
@@ -309,6 +311,18 @@ function mostraElemento(tipo, despesaF) {
                     };
                 } else {
 
+                }
+
+                if (v.registro == 'despesa' && v.cpfLogado == cpfLogado) {
+                    let x;
+                    x += v.valor; 
+
+                    let somaDespesas = x;
+
+                    localStorage.setItem(cpfLogado, JSON.stringify(somaDespesas));
+                    console.log(somaDespesas) 
+
+                    despesaSoma.innerHTML = `${somaDespesas}`
                 }
             }
         )
@@ -371,4 +385,4 @@ function buscarDados() {
     }
 }
 
-//----------------------------------- Integrando com o banco ----------------------- //
+//----------------------------------- Soma das despesas ----------------------- //
