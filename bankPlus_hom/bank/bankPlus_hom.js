@@ -442,7 +442,7 @@ function verificarLogin(tipo, usuario) {
             mostraModal('altSenha', true);
 
             setTimeout(() => {
-                window.location.href = '/bankPlus/bank/index.html'
+                window.location.href = '/bankPlus_hom/bank/index.html'
             }, 3000);
         }
     }
@@ -455,7 +455,7 @@ function usuarioLogado(user) {
 
 function checarLogin() {
     if (localStorage.getItem('login') == 'true') {
-        window.location.href = '/bankPlus/despesas/index.html'
+        window.location.href = '/bankPlus_hom/despesas/index.html'
     } else if (localStorage.getItem('login') == 'false') {
 
         mostraModal('logadoTOF', false)
@@ -471,7 +471,7 @@ function sairLogin() {
     localStorage.setItem('cpfLogado', 'false')
 
     setTimeout(() => {
-        window.location.href = '/bankPlus/bank/index.html'
+        window.location.href = '/bankPlus_hom/bank/index.html'
     }, 2000);
 }
 
@@ -495,7 +495,7 @@ function alterarBotao() {
         btDinamico.appendChild(btTrue)
 
         btTrue.onclick = () => {
-            window.location.href = '/bankPlus/bank/login.html'
+            window.location.href = '/bankPlus_hom/bank/login.html'
         }
     }
 }
