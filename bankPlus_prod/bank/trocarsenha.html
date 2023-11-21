@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>BankPlus - login</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+        <link rel="shortcut icon" href="/bankPlus_prod/bank/imagens/logo_bankPlus_22.png" type="image/x-icon">
+
+    <style>
+        .mouseCima {
+            color: white;
+            font-weight: bold;
+            background-color: #820AD1;
+        }
+
+        .mouseCima:hover {
+            color: rgb(171, 157, 157);
+        }
+
+        #p1 {
+            background-image: url(/bankPlus_prod/bank/imagens/teste.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+</head>
+
+<body class="overflow-x-hidden overflow-y-auto">
+    <header></header>
+    <main class="row vh-100 vw-100">
+
+        <div style="background-color: #820AD1;" class="col-sm-12 col-md-6 col-xl-6">
+            <div class="row">
+                <div class="col-6">
+                    <img src="/bankPlus_prod/bank/imagens/logo_bankPlus.png" width="300">
+                </div>
+
+                <div class="col-6">
+                    <nav class="navbar navbar-expand-md mt-5 justify-content-end">
+                        <div>
+                            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                                <span class="navbar-toggler-icon"> </span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="nav">
+                                <ul class="navbar-nav list-unstyled">
+                                    <li class="nav-item px-1"> <a class="nav-link mouseCima"
+                                            href="/bankPlus_prod/bank/index.html"> Home <span><i class="fa-solid fa-house"></i></span></a></li>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+            </div>
+            <div class="w-100 mt-5 p-2 rounded-2">
+
+                    <input id="nomePalterar" type="text" class="form-control" placeholder="Primeiro nome"> <br>
+                    <input id="cpfAlterar" type="text" class="form-control" placeholder="CPF"> <br>
+                    <input id="senhaAlterar" type="password" class="form-control" placeholder="Nova senha"> <br>
+                    <input id="confsenhaAlterar" type="password" class="form-control" placeholder="Confirme a senha"> <br>
+                <div class="text-center">
+                    <div class="row">
+                        <div class="col-12">
+                            <button onclick="logarUsuario('alterarSenha')" style="background-color: #820AD1;" class="btn border mouseCima">
+                                Alterar senha
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="p1" class="d-sm-none d-md-block d-xl-block col-md-6 col-xl-6">
+
+        </div>
+
+        <div class="modal fade" id="mostraModal" tabindex="-1" role="dialog" aria-labelledby="sucesso">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div id="tit-cor">
+                        <h5 id="modal-tit" class="modal-title">Titulo modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="modal-corp" class="modal-body">
+                        Corpo modal
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-but" type="button" data-bs-dismiss="modal">
+                            Botão modal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="bankPlus.js"></script>
+
+    <script src="https://kit.fontawesome.com/9c9e12ed10.js" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
