@@ -328,7 +328,7 @@ function mostraElemento(tipo, despesaF) {
                     linha.insertCell(0).innerHTML = `${v.dia}/${v.mes}/${v.ano}`;
                     linha.insertCell(1).innerHTML = v.tipo;
                     linha.insertCell(2).innerHTML = v.desc;
-                    linha.insertCell(3).innerHTML = `${v.valor}R$`;
+                    linha.insertCell(3).innerHTML = `R$${v.valor}`;
 
                     let botao = document.createElement('button');
                     botao.className = 'btn btn-danger btn-sm';
