@@ -455,7 +455,7 @@ function usuarioLogado(user) {
 
 function checarLogin() {
     if (localStorage.getItem('login') == 'true') {
-        window.location.href = 'index.html'
+        window.location.href = '../despesas/index.html'
     } else if (localStorage.getItem('login') == 'false') {
 
         mostraModal('logadoTOF', false)
