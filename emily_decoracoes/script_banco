@@ -1,0 +1,59 @@
+CREATE DATABASE IF NOT EXISTS emily_decoracoes;
+
+USE emily_decoracoes;
+
+-- Tabela de Clientess.
+CREATE TABLE IF NOT EXISTS clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    stadmin BOOLEAN DEFAULT FALSE
+);
+
+-- Tabela de Produtos.
+CREATE TABLE IF NOT EXISTS produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    preco FLOAT,
+    tipo ENUM('cortina', 'persiana') NOT NULL,
+    cor VARCHAR(50),
+    modelo VARCHAR(100),
+    imagem VARCHAR(255) NULL
+);
+
+-- Tabela de Agendamentos.
+CREATE TABLE IF NOT EXISTS agendamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    data_agendamento DATETIME NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+);
+
+-- Tabela de Pedidos.
+CREATE TABLE IF NOT EXISTS pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    status VARCHAR(50) DEFAULT 'Pendente',
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+);
+
+-- Tabela de associação Pedidos produtos.
+CREATE TABLE IF NOT EXISTS pedido_produtos (
+    pedido_id INT,
+    produto_id INT,
+    quantidade INT DEFAULT 1,
+    PRIMARY KEY (pedido_id, produto_id),
+    FOREIGN KEY (pedido_id) REFERENCES Pedidos(id),
+    FOREIGN KEY (produto_id) REFERENCES Produtos(id)
+);
+
+-- Tabela de funcionarios.
+CREATE TABLE IF NOT EXISTS funcionario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    administrador VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (administrador IN ('True', 'False'))
+);

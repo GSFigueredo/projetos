@@ -1,0 +1,39 @@
+body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ebeef1;
+}
+
+.links {
+    font-size: 1.0rem;
+    color: #530e6e;
+}
+
+.titulos{
+    font-size: 1.5rem;
+    color: #530e6e; 
+    font-weight: bold;
+}
+
+.titulo_cards {
+    font-size: 1.5rem;
+    color: #530e6e;
+}
+
+.botoes{
+    background-color: purple;
+    color: white;
+    font-weight: bold;
+}
+
+.botoes:hover {
+    background-color: #530e6e;
+    color: white;
+}
+
+.linha_vermelha {
+    height: 2px;
+    background-color: #c93c3c;
+    width: 100%;
+}
