@@ -2,13 +2,12 @@ CREATE DATABASE IF NOT EXISTS emily_decoracoes;
 
 USE emily_decoracoes;
 
--- Tabela de Clientess.
+-- Tabela de Clientes.
 CREATE TABLE IF NOT EXISTS clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL,
-    stadmin BOOLEAN DEFAULT FALSE
+    senha VARCHAR(255) NOT NULL
 );
 
 -- Tabela de Produtos.

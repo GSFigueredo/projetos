@@ -1,5 +1,3 @@
-import * as api from '../configuracoes/conn.js';
-
 function cadastrarCliente () {
     const cliente = {
         nome: $('#nome').val(),
@@ -16,7 +14,7 @@ function cadastrarCliente () {
         return;
     }
 
-    console.log('inserir no banco de dados agora')
+    console.log('inserir no banco')
 }
 
 function inserirBanco(cliente) {
