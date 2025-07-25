@@ -17,6 +17,8 @@
         />
 
         <link rel="stylesheet" href="../css/cadastro.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
     <body>
@@ -55,7 +57,7 @@
 
                     <p>Cadastre-se para agendar visitas e finalizar seus pedidos</p>
 
-                    <form>
+                    <div>
                         <div class="mb-3">
                             <input type="text" id="nome" class="form-control" placeholder="Nome completo">
                         </div>
@@ -66,8 +68,12 @@
                         <div class="mb-3">
                             <input type="password" id="senha" class="form-control" placeholder="Senha">
                         </div>
-                        <button type="submit" class="btn fw-bold w-100" style="background-color: #e5007d; color: white;">CADASTRAR E ENTRAR</button>
-                    </form>
+
+                        <div class="mb-3">
+                            <input type="password" id="confirmar_senha" class="form-control" placeholder="Confirmar senha">
+                        </div>
+                        <button id="btn_cadastro" class="btn fw-bold w-100" style="background-color: #e5007d; color: white;">CADASTRAR E ENTRAR</button>
+                    </div>
                     <div class="text-center mt-3">
                     <small>Já tem uma conta? <a href="../dashboard_login/index.html">Faça o login</a></small>
                     </div>
@@ -89,5 +95,7 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+
+        <script type="module" src="index.js"></script>
     </body>
 </html>
