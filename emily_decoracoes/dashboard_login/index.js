@@ -20,12 +20,17 @@ async function logarCliente () {
 
         const {user} = await resposta.json();
 
-        if(resposta.status === 401) {
+        if(resposta.status === 500) {
+            alert('Erro ao efetuar o login. Tente novamente mais tarde.');
+            return;
+        } else if(resposta.status === 401) {
             alert('Senha incorreta');
         } else if(resposta.status === 404) {
             alert('Usuário não encontrado');
         } else {
-            alert(`Bem-vindo, ${user.nome}!`);
+            alert(`Bem-vindo(a) ${user.nome}!`);
+            localStorage.setItem('token', user.token);
+            window.location.href = '../dashboard_principal/index.html';
         }
     } catch(error) {
         console.error('Erro ao fazer login:', error);

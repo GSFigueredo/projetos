@@ -13,8 +13,13 @@ router.post('/', (req, res) => {
     dbConnection.query(query, [nome, email, senha], (error, results) => {
         if (error) {
             console.error('Erro ao criar usuário:', error);
+            if(error.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: 'E-mail já cadastrado.' });
+            }
+            
             return res.status(500).json({ error: 'Erro ao inserir dados.' });
         }
+
         res.status(201).json({ message: 'Usuário criado com sucesso!', id: results.insertId });
     });
 });

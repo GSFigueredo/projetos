@@ -29,15 +29,19 @@ async function inserirBanco(cliente) { // função assíncrona para seguir o có
 
         const {message} = await resposta.json();
 
-        if (!resposta.ok) {
-            alert('Erro: ' + message);
+        if (resposta.status === 409) {
+            alert('E-mail já cadastrado. Por favor, tente com outro e-mail.');
         } else {
-            alert('Usuário cadastrado com sucesso!');
+            redirecionarLogado(cliente);
         }
     } catch (erro) {
         alert('Erro inesperado: ', erro.message);
     }
 }
 
+function redirecionarLogado(cliente) {
+    
+
+}
 // Event listener para o botão de cadastro
 $('#btn_cadastro').click(cadastrarCliente);
