@@ -17,6 +17,8 @@
         />
 
         <link rel="stylesheet" href="../css/login.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
     <body>
@@ -52,15 +54,15 @@
                 <div class="card p-4 shadow" style="width: 50%; border-left: 4px solid purple;">
                     <h5 class="titulos mb-3">Acessar sua Conta</h5>
                     <hr>
-                    <form>
+                    <div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="E-mail">
+                            <input id="email" class="form-control" placeholder="E-mail">
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" placeholder="Senha">
+                            <input id="senha" type="password" class="form-control" placeholder="Senha">
                         </div>
-                        <button type="submit" class="btn fw-bold w-100" style="background-color: #e5007d; color: white;">ENTRAR</button>
-                    </form>
+                        <button id="btn_login" class="btn fw-bold w-100" style="background-color: #e5007d; color: white;">ENTRAR</button>
+                    </div>
                     <div class="text-center mt-3">
                     <small>Não tem uma conta? <a href="../dashboard_cadastro/index.html">Cadastre-se</a></small>
                     </div>
@@ -83,6 +85,6 @@
             crossorigin="anonymous"
         ></script>
 
-        <script src="index.js"></script>
+        <script type="module" src="index.js"></script>
     </body>
 </html>

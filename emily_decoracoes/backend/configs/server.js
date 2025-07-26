@@ -1,22 +1,20 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-const PORT = 3001;
-app.use(express.json());
+const porta = 3001;
 
-// Importar as rotas
-const usuariosRoutes = require('./routes/usuarios');
-// Se você criar a de produtos: const produtosRoutes = require('./routes/produtos');
+// ----- MIDDLEWARES -----
+// o express trata a requisição, e logo após, disponibiliza dois objetos, o req(requisição/dados) e o res(resposta inicialmente vazia)
+app.use(cors()); // comunicação entre front-end e back-end, e envia a resposta para o front-end
+app.use(express.json());  // transforma para json
 
-// ----- ROTAS PRINCIPAIS DA API -----
-// Dizemos para o Express: "Toda requisição que chegar para '/api/usuarios', 
-// deve ser gerenciada pelo nosso arquivo `usuariosRoutes`"
-app.use('/api/usuarios', usuariosRoutes);
+// ----- ROTAS -----
+const cadastroRoutes = require('../routes/cadastro.js');
+const loginRoutes = require('../routes/login.js');
 
-// Rota teste
-app.get('/', (req, res) => {
-  res.send('Servidor backend está no ar. APIs estão em /api/...');
-});
+app.use('/api/cadastro', cadastroRoutes); // especie de if else o qual se a rota for /api/usuarios, o express irá usar as rotas definidas no arquivo usuarios.js
+app.use('/api/login', loginRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}.`);
+app.listen(porta, () => {
+  console.log(`Servidor rodando na porta ${porta}.`);
 });
