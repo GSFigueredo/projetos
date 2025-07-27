@@ -10,6 +10,11 @@ body{
     color: #530e6e;
 }
 
+.sair {
+    font-size: 1.0rem;
+    color: #c910b9;
+}
+
 .titulos{
     font-size: 1.5rem;
     color: #530e6e; 
