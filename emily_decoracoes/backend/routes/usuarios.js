@@ -65,4 +65,37 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.post('/verificarLogin', (req, res) => {
+    const {id, token} = req.body;
+
+    if (!id || !token) {
+        return res.status(400).json({ error: 'ID e token são obrigatórios.' });
+    }
+
+    const query = 'SELECT id, nome, email FROM clientes WHERE id = ?';
+    dbConnection.query(query, [id], (error, results) => {
+        if (error) {
+            console.error('Erro ao verificar o login:', error);
+            return res.status(500).json({ error: 'Erro ao verificar o login' });
+        }
+
+        if (results.length === 0 || results === undefined || results === null) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+            //return console.log('Usuário não encontrado');
+        }
+
+        res.status(200).json({
+            message: 'Login verificado com sucesso',
+            user: { 
+                id: results[0].id,
+                nome: results[0].nome,
+                email: results[0].email,
+                token: token
+            }
+            }
+        );
+    }
+    )
+});
+
 module.exports = router; // export para que o server.js use as rotas

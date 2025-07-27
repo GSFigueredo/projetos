@@ -57,7 +57,9 @@ async function redirecionarLogado(cliente) {
             return;
         } else {
             alert(`Bem-vindo(a) ${user.nome}!`);
+            localStorage.clear();
             localStorage.setItem('token', user.token);
+            localStorage.setItem('id', user.id)
             window.location.href = '../dashboard_principal/index.html';
         }
     } catch(error) {
