@@ -1,7 +1,7 @@
-import { verificarLogin } from '../autenticar/index.js';
+import { verificarLogin } from '../autenticador/index.js';
 
 function usuarioLogado(user) {
-  alert(`login detectado ${user.nome}`)
+  alert(`usuario logado ${user.nome}`)
 }
 
 // Assim que a página for carregada, chama a função verificarLogin
