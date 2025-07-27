@@ -6,7 +6,7 @@ const router = express.Router();
 const dbConnection = require('../configs/db');
 
 // API de cadastro
-router.post('/cadastrar', (req, res) => {
+router.post('/cadastro', (req, res) => {
     const { nome, email, senha } = req.body;
 
     if (!nome || !email || !senha) {
@@ -29,7 +29,7 @@ router.post('/cadastrar', (req, res) => {
 });
 
 // API de login
-router.post('/logar', (req, res) => {
+router.post('/login', (req, res) => {
 
     const {email, senha} = req.body;
 

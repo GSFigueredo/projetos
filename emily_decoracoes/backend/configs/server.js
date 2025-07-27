@@ -10,7 +10,6 @@ app.use(express.json());  // transforma para json
 
 // ----- ROTAS -----
 const usuariosRoutes = require('../routes/usuarios.js');
-
 app.use('/api/usuarios/', usuariosRoutes);
 
 app.listen(porta, () => {
