@@ -5,7 +5,32 @@ const express = require('express');
 const router = express.Router();
 const dbConnection = require('../configs/db');
 
-router.post('/', (req, res) => {
+// API de cadastro
+router.post('/cadastrar', (req, res) => {
+    const { nome, email, senha } = req.body;
+
+    if (!nome || !email || !senha) {
+        return res.status(400).json({ error: 'Todos os campos são obrigatórios.'})
+    };
+
+    const query = 'INSERT INTO clientes (nome, email, senha) VALUES (?, ?, ?)';
+    dbConnection.query(query, [nome, email, senha], (error, results) => {
+        if (error) {
+            console.error('Erro ao criar usuário:', error);
+            if(error.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: 'E-mail já cadastrado.' });
+            }
+            
+            return res.status(500).json({ error: 'Erro ao inserir dados.' });
+        }
+
+        res.status(201).json({ message: 'Usuário criado com sucesso!', id: results.insertId });
+    });
+});
+
+// API de login
+router.post('/logar', (req, res) => {
+
     const {email, senha} = req.body;
 
     const query = 'select id, nome, email, senha from clientes where email = ?';

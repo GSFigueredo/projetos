@@ -9,11 +9,9 @@ app.use(cors()); // comunicação entre front-end e back-end, e envia a resposta
 app.use(express.json());  // transforma para json
 
 // ----- ROTAS -----
-const cadastroRoutes = require('../routes/cadastro.js');
-const loginRoutes = require('../routes/login.js');
+const usuariosRoutes = require('../routes/usuarios.js');
 
-app.use('/api/cadastro', cadastroRoutes); // especie de if else o qual se a rota for /api/usuarios, o express irá usar as rotas definidas no arquivo usuarios.js
-app.use('/api/login', loginRoutes);
+app.use('/api/usuarios/', usuariosRoutes);
 
 app.listen(porta, () => {
   console.log(`Servidor rodando na porta ${porta}.`);

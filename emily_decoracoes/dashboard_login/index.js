@@ -10,7 +10,7 @@ async function logarCliente () {
     }
 
     try { 
-        const resposta = await fetch('http://localhost:3001/api/login/', {
+        const resposta = await fetch('http://localhost:3001/api/usuarios/logar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

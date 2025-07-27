@@ -19,7 +19,7 @@ function cadastrarCliente () {
 
 async function inserirBanco(cliente) { // função assíncrona para seguir o código apenas depois que a requisição for concluída
     try {
-        const resposta = await fetch('http://localhost:3001/api/cadastro/', { //aguardando a resposta da requisição (promisse), assim que for finalizada, o código continua na proxima linha
+        const resposta = await fetch('http://localhost:3001/api/usuarios/cadastrar', { //aguardando a resposta da requisição (promisse), assim que for finalizada, o código continua na proxima linha
             method: 'POST', 
             headers: { 
                 'Content-Type': 'application/json' // informa que o corpo da requisição está no formato JSON
@@ -42,7 +42,7 @@ async function inserirBanco(cliente) { // função assíncrona para seguir o có
 async function redirecionarLogado(cliente) {
 
     try{
-        const resposta = await fetch('http://localhost:3001/api/login/', {
+        const resposta = await fetch('http://localhost:3001/api/usuarios/logar', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json'
