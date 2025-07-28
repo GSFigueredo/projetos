@@ -59,8 +59,8 @@
                         <input id="nome" class="form-control" type="text" placeholder="Nome do produto">
                         <input id="desc" class="form-control mt-2" type="text" placeholder="Descrição">
                         <input id="preco" class="form-control mt-2" type="number" placeholder="R$ Preço">
-                        <select id="tipo" class="form-control mt-2">
-                            <option value="0">Tipo</option>
+                        <select id="tipo" class="form-select mt-2">
+                            <option disabled selected hidden>Selecione o tipo</option>
                             <option value="1"> Cortina</option>
                             <option value="2"> Persiana</option>
                         </select>
@@ -68,15 +68,30 @@
                         <input id="modelo" class="form-control mt-2" type="text" placeholder="Modelo">
                         <input class="mt-2 form-control" type="file" id="imagem" accept="image/*">
 
-                        <div class="mt-3 justify-content-center d-flex"> <button style="width: 100%;" class="btn botoes">Adicionar Produto</button> </div>
+                        <div class="mt-3 justify-content-center d-flex"> <button id="btn_adicionarProd" style="width: 100%;" class="btn botoes">Adicionar Produto</button> </div>
                     </div>
                 </div>
 
                 <div class="card mb-4"> 
-                    <div class="card-header"> <h3 class="titulo_cards card-title">Agendar uma visita técnica</h3></div>
-                    <div class="card-body input-group"> 
-                        <input type="datetime-local" class="form-control" placeholder="Selecione a data e hora">
-                        <button class="btn botoes" type="button"> AGENDAR </button>
+                    <div class="card-header"> <h3 class="titulo_cards card-title">Gerenciar produtos</h3></div>
+                    <div class="card-body"> 
+                        <table class="table table-bordered table-hover table-responsive">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Preço</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>Cortina Roxa</td>
+                                    <td>Cortina tamanho industrial</td>
+                                    <td>R$499</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

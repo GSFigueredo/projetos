@@ -26,6 +26,38 @@ function usuarioLogado(user) {
     } 
 }
 
+async function adicionarProduto () {
+    const produto = {
+        nome: $("#nome").val(),
+        desc: $("#desc").val(),
+        preco: $("#preco").val(),
+        tipo: $("#tipo").val(),
+        cor: $("#cor").val(),
+        modelo: $('#modelo').val(),
+        imagem: $('#imagem').val()
+    }
+
+    if (Object.values(produto).some(campo => !campo)) { //se o campo for vazio, retornará falso, porém é feita a negação para que o campo vire true, e dessa forma entre no if
+        alert('Por favor, preencha todos os campos.');
+        return;
+    }
+
+    produto.tipo = produto.tipo == 1 ? 'cortina' : 'persiana';
+
+    try {
+        const resposta = await fetch('http://localhost:3001/api/produtos/inserir', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(produto)
+        })
+    } catch(error) {
+        console.log('Erro ao cadastar produto');
+    }
+
+}
+
 // Assim que a página for carregada, chama a função verificarLogin
 $(document).ready(async () => {
   const user = await verificarLogin();
@@ -39,3 +71,6 @@ $(document).ready(async () => {
 
   //user ? usuarioLogado(user) : alert('Você deve estar logado para acessar a página de administrador')
 });
+
+// Event listener para o botão de adicionar produto
+$('#btn_adicionarProd').click(adicionarProduto);

@@ -10,6 +10,12 @@ body{
     color: #530e6e;
 }
 
+.tabelas_cabecalho {
+     background-color: #530e6e;
+     color: white;
+     font-weight: bold;
+}
+
 .sair {
     font-size: 1.0rem;
     color: #c910b9;
