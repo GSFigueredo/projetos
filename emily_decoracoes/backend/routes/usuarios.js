@@ -13,7 +13,7 @@ router.post('/cadastro', (req, res) => {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios.'})
     };
 
-    const query = 'INSERT INTO clientes (nome, email, senha) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
     dbConnection.query(query, [nome, email, senha], (error, results) => {
         if (error) {
             console.error('Erro ao criar usuário:', error);
@@ -33,7 +33,7 @@ router.post('/login', (req, res) => {
 
     const {email, senha} = req.body;
 
-    const query = 'select id, nome, email, senha from clientes where email = ?';
+    const query = 'select id, nome, email, senha from usuarios where email = ?';
     dbConnection.query(query, [email], (error, results) => { // results é um array de objetos, nativo do mysql2
         if (error) {
             console.error('Erro ao efetuar o login:', error);
@@ -72,7 +72,7 @@ router.post('/verificarLogin', (req, res) => {
         return res.status(400).json({ error: 'ID e token são obrigatórios.' });
     }
 
-    const query = 'SELECT id, nome, email FROM clientes WHERE id = ?';
+    const query = 'SELECT id, nome, email, funcionario, administrador FROM usuarios WHERE id = ?';
     dbConnection.query(query, [id], (error, results) => {
         if (error) {
             console.error('Erro ao verificar o login:', error);
@@ -84,7 +84,21 @@ router.post('/verificarLogin', (req, res) => {
             //return console.log('Usuário não encontrado');
         }
 
-        res.status(200).json({
+        if(results[0].funcionario == 'True' && results[0].administrador == 'True') {
+                res.status(200).json({
+                    message: 'Login verificado com sucesso',
+                    user: { 
+                        id: results[0].id,
+                        nome: results[0].nome,
+                        email: results[0].email,
+                        funcionario: true,
+                        administrador: true,
+                        token: token
+                    }
+                }
+            );
+        } else { 
+            res.status(200).json({
             message: 'Login verificado com sucesso',
             user: { 
                 id: results[0].id,
@@ -94,6 +108,7 @@ router.post('/verificarLogin', (req, res) => {
             }
             }
         );
+        }
     }
     )
 });

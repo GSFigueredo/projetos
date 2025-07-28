@@ -16,7 +16,7 @@
             crossorigin="anonymous"
         />
 
-        <link rel="stylesheet" href="../css/principal.css">
+        <link rel="stylesheet" href="../css/adm.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
@@ -50,9 +50,26 @@
         </header>
         <main>
             <div class="container" style="margin-top: 5%;">
-                <div class="card mb-4"> 
-                    <div class="card-header"> <h3 class="titulo_cards card-title">Carrinho de compras</h3></div>
-                    <div class="card-body"> Seu carrinho está vazio</div>
+
+                <p class="mt-5 titulos"> Painel de Administração</p>
+
+                <div class="card mt-4 mb-4"> 
+                    <div class="card-header"> <h3 class="titulo_cards card-title">Cadastrar novo produto</h3></div>
+                    <div class="card-body"> 
+                        <input id="nome" class="form-control" type="text" placeholder="Nome do produto">
+                        <input id="desc" class="form-control mt-2" type="text" placeholder="Descrição">
+                        <input id="preco" class="form-control mt-2" type="number" placeholder="R$ Preço">
+                        <select id="tipo" class="form-control mt-2">
+                            <option value="0">Tipo</option>
+                            <option value="1"> Cortina</option>
+                            <option value="2"> Persiana</option>
+                        </select>
+                        <input id="cor" class="form-control mt-2" type="text" placeholder="Cor">
+                        <input id="modelo" class="form-control mt-2" type="text" placeholder="Modelo">
+                        <input class="mt-2 form-control" type="file" id="imagem" accept="image/*">
+
+                        <div class="mt-3 justify-content-center d-flex"> <button style="width: 100%;" class="btn botoes">Adicionar Produto</button> </div>
+                    </div>
                 </div>
 
                 <div class="card mb-4"> 

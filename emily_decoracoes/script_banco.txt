@@ -2,12 +2,14 @@ CREATE DATABASE IF NOT EXISTS emily_decoracoes;
 
 USE emily_decoracoes;
 
--- Tabela de Clientes.
-CREATE TABLE IF NOT EXISTS clientes (
+-- Tabela de usuarios.
+CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    funcionario VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (administrador IN ('True', 'False')),
+    administrador VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (administrador IN ('True', 'False'))
 );
 
 -- Tabela de Produtos.
@@ -25,17 +27,17 @@ CREATE TABLE IF NOT EXISTS produtos (
 -- Tabela de Agendamentos.
 CREATE TABLE IF NOT EXISTS agendamentos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente_id INT,
+    usuario_id INT,
     data_agendamento DATETIME NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
 -- Tabela de Pedidos.
 CREATE TABLE IF NOT EXISTS pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente_id INT,
+    usuario_id INT,
     status VARCHAR(50) DEFAULT 'Pendente',
-    FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
 -- Tabela de associação Pedidos produtos.
@@ -48,11 +50,5 @@ CREATE TABLE IF NOT EXISTS pedido_produtos (
     FOREIGN KEY (produto_id) REFERENCES Produtos(id)
 );
 
--- Tabela de funcionarios.
-CREATE TABLE IF NOT EXISTS funcionario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL,
-    administrador VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (administrador IN ('True', 'False'))
-);
+insert into usuarios (nome, email, senha, funcionario, administrador) values 
+('admin', 'admin.emily@gmail.com', '4dm1n1234', 'True', 'True');

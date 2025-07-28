@@ -16,12 +16,13 @@ export async function verificarLogin() {
             }
             )
 
-            const {user} = await resposta.json();
+            const dados = await resposta.json();
 
             if(resposta.status === 200) {
+                const {user} = dados;
                 return user;
             } else { 
-                console.error('Erro ao verificar login:', resposta.error);
+                console.error('Erro ao verificar login:', dados.error);
                 localStorage.clear();
                 alert('Sessão expirada. Por favor, faça login novamente.');
                 return false;
