@@ -28,8 +28,6 @@ function usuarioLogado(user) {
 
 async function adicionarProduto () {
 
-    const imagemFile = $('#imagem')[0].files[0];
-
     const produto = {
         nome: $("#nome").val(),
         desc: $("#desc").val(),
@@ -37,7 +35,7 @@ async function adicionarProduto () {
         tipo: $("#tipo").val(),
         cor: $("#cor").val(),
         modelo: $('#modelo').val(),
-        imagem: imagemFile
+        imagem: $('#imagem')[0].files[0]
     }
 
     if (Object.values(produto).some(campo => !campo)) { //se o campo for vazio, retornará falso, porém é feita a negação para que o campo vire true, e dessa forma entre no if
