@@ -25,14 +25,14 @@
             <div class="container" style="margin-top: 2%;">
                 <div class="row">
                     <div class="col-3">
-                        <a href="index.html"><img style="width: 60%; margin-left: 5%;" src="../img/logo.png" alt="Emily Decorações" class="img-fluid"/></a>
+                        <a href="../dashboard_principal/index.html"><img style="width: 60%; margin-left: 5%;" src="../backend/public/img/logo.png" alt="Emily Decorações" class="img-fluid"/></a>
                     </div>
 
                     <div class="col-9">
                         <navbar style="margin-right: 5%;" class="navbar navbar-expand-lg justify-content-end">
                             <ul class="nav">
                                 <li class="nav-item">
-                                    <a class="nav-link links" href="index.html">Catálogo</a>
+                                    <a class="nav-link links" href="../dashboard_principal/index.html">Catálogo</a>
                                 </li>
                                 <li class="nav-item">
                                     <a id="link_login" class="nav-link links" href="../dashboard_login/index.html">Login</a>
@@ -61,8 +61,8 @@
                         <input id="preco" class="form-control mt-2" type="number" placeholder="R$ Preço">
                         <select id="tipo" class="form-select mt-2">
                             <option disabled selected hidden>Selecione o tipo</option>
-                            <option value="1"> Cortina</option>
-                            <option value="2"> Persiana</option>
+                            <option value="cortina"> Cortina</option>
+                            <option value="persiana"> Persiana</option>
                         </select>
                         <input id="cor" class="form-control mt-2" type="text" placeholder="Cor">
                         <input id="modelo" class="form-control mt-2" type="text" placeholder="Modelo">
@@ -78,6 +78,7 @@
                         <table class="table table-bordered table-hover table-responsive">
                             <thead class="table-info">
                                 <tr>
+                                    <th>Foto</th>
                                     <th>Nome</th>
                                     <th>Descrição</th>
                                     <th>Preço</th>
@@ -86,6 +87,7 @@
 
                             <tbody>
                                 <tr>
+                                    <td></td>
                                     <td>Cortina Roxa</td>
                                     <td>Cortina tamanho industrial</td>
                                     <td>R$499</td>
@@ -97,7 +99,7 @@
             </div>
 
             <div class="container">
-                <h3 class="titulos">Nosso catálogo</h3>
+                <h3 class="titulos">Agendamentos</h3>
             </div>
         </main>
         <footer>

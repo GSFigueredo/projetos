@@ -1,4 +1,8 @@
-require('dotenv-safe').config(); 
+const path = require('path');
+require('dotenv-safe').config({
+  path: path.resolve(__dirname, '../configs/.env'),
+  example: path.resolve(__dirname, '../configs/.env.example')
+});
 
 const jwt = require('jsonwebtoken');
 const express = require('express');

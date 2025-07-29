@@ -27,6 +27,9 @@ function usuarioLogado(user) {
 }
 
 async function adicionarProduto () {
+
+    const imagemFile = $('#imagem')[0].files[0];
+
     const produto = {
         nome: $("#nome").val(),
         desc: $("#desc").val(),
@@ -34,7 +37,7 @@ async function adicionarProduto () {
         tipo: $("#tipo").val(),
         cor: $("#cor").val(),
         modelo: $('#modelo').val(),
-        imagem: $('#imagem').val()
+        imagem: imagemFile
     }
 
     if (Object.values(produto).some(campo => !campo)) { //se o campo for vazio, retornará falso, porém é feita a negação para que o campo vire true, e dessa forma entre no if
@@ -42,16 +45,28 @@ async function adicionarProduto () {
         return;
     }
 
-    produto.tipo = produto.tipo == 1 ? 'cortina' : 'persiana';
+    const formData = new FormData();
+    for(const [chave, valor] of Object.entries(produto)) {
+        formData.append(chave, valor) // o objeto produto está sendo adicionado no objeto formData (chave: nome do atributo; valor: valor do campo)
+    }
+
+    //console.log(formData.get('imagem')); //só é possível acessar os atributos de um objeto FormData via metodo get
 
     try {
         const resposta = await fetch('http://localhost:3001/api/produtos/inserir', {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(produto)
+            body: formData
         })
+
+        const dados = resposta.json();
+
+        if(resposta.status == 200) {
+          alert('Produto cadastrado com sucesso');
+          
+        } else {
+          alert(`Erro ao inserir produto: ${dados.error}`)
+        }
+
     } catch(error) {
         console.log('Erro ao cadastar produto');
     }
