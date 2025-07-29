@@ -20,7 +20,7 @@ function usuarioLogado(user) {
       linkCadastro.text(`SAIR`)
 
       linkCadastro.on('click', evento => {
-        evento.preventDefault(); // não permitir que faça evento padrão da tag, exemplo: link, não permite que ele redirecione
+        evento.preventDefault();
         localStorage.clear();
         window.location.href = 'index.html';
       });
@@ -37,14 +37,13 @@ function usuarioLogado(user) {
       linkCadastro.text(`SAIR`)
 
       linkCadastro.on('click', evento => {
-        evento.preventDefault(); // não permitir que faça evento padrão da tag, exemplo: link, não permite que ele redirecione
+        evento.preventDefault();
         localStorage.clear();
         window.location.href = 'index.html';
       });
     }
 }
 
-// Assim que a página for carregada, chama a função verificarLogin
 $(document).ready(async () => {
   const user = await verificarLogin();
   user ? usuarioLogado(user) : null;

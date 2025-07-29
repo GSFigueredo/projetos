@@ -6,7 +6,7 @@ function cadastrarCliente () {
         confirmarSenha: $('#confirmar_senha').val()
     }
     
-    if (Object.values(cliente).some(campo => !campo)) { //se o campo for vazio, retornará falso, porém é feita a negação para que o campo vire true, e dessa forma entre no if
+    if (Object.values(cliente).some(campo => !campo)) {
         alert('Por favor, preencha todos os campos.');
         return;
     } else if(cliente.senha !== cliente.confirmarSenha) {
@@ -17,14 +17,14 @@ function cadastrarCliente () {
     inserirBanco(cliente);
 }
 
-async function inserirBanco(cliente) { // função assíncrona para seguir o código apenas depois que a requisição for concluída
+async function inserirBanco(cliente) { 
     try {
-        const resposta = await fetch('http://localhost:3001/api/usuarios/cadastro', { //aguardando a resposta da requisição (promisse), assim que for finalizada, o código continua na proxima linha
+        const resposta = await fetch('http://localhost:3001/api/usuarios/cadastro', {
             method: 'POST', 
             headers: { 
-                'Content-Type': 'application/json' // informa que o corpo da requisição está no formato JSON
+                'Content-Type': 'application/json' 
             },
-            body: JSON.stringify(cliente) // pegando o objeto javascript e transformando em uma string JSON
+            body: JSON.stringify(cliente) 
         });
 
         const {message} = await resposta.json();
@@ -68,5 +68,5 @@ async function redirecionarLogado(cliente) {
         return;
     }
 }
-// Event listener para o botão de cadastro
+
 $('#btn_cadastro').click(cadastrarCliente);

@@ -38,5 +38,4 @@ async function logarCliente () {
     
 }
 
-// Event listener para o botão de login
 $('#btn_login').click(logarCliente);

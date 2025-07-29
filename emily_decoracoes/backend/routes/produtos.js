@@ -50,4 +50,4 @@ router.post('/inserir', upload.single('imagem'), (req, res) => {
     
 });
 
-module.exports = router; // export para que o server.js use as rotas
+module.exports = router;

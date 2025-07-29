@@ -19,7 +19,7 @@ function usuarioLogado(user) {
       linkCadastro.text(`SAIR`)
 
       linkCadastro.on('click', evento => {
-        evento.preventDefault(); // não permitir que faça evento padrão da tag, exemplo: link, não permite que ele redirecione
+        evento.preventDefault();
         localStorage.clear();
         window.location.href = 'index.html';
       });
@@ -38,14 +38,14 @@ async function adicionarProduto () {
         imagem: $('#imagem')[0].files[0]
     }
 
-    if (Object.values(produto).some(campo => !campo)) { //se o campo for vazio, retornará falso, porém é feita a negação para que o campo vire true, e dessa forma entre no if
+    if (Object.values(produto).some(campo => !campo)) { 
         alert('Por favor, preencha todos os campos.');
         return;
     }
 
     const formData = new FormData();
     for(const [chave, valor] of Object.entries(produto)) {
-        formData.append(chave, valor) // o objeto produto está sendo adicionado no objeto formData (chave: nome do atributo; valor: valor do campo)
+        formData.append(chave, valor) 
     }
 
     //console.log(formData.get('imagem')); //só é possível acessar os atributos de um objeto FormData via metodo get
@@ -71,7 +71,6 @@ async function adicionarProduto () {
 
 }
 
-// Assim que a página for carregada, chama a função verificarLogin
 $(document).ready(async () => {
   const user = await verificarLogin();
 
@@ -85,5 +84,4 @@ $(document).ready(async () => {
   //user ? usuarioLogado(user) : alert('Você deve estar logado para acessar a página de administrador')
 });
 
-// Event listener para o botão de adicionar produto
 $('#btn_adicionarProd').click(adicionarProduto);

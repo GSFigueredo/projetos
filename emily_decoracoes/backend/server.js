@@ -5,9 +5,8 @@ const app = express();
 const porta = 3001;
 
 // ----- MIDDLEWARES -----
-// o express trata a requisição, e logo após, disponibiliza dois objetos, o req(requisição/dados) e o res(resposta inicialmente vazia)
-app.use(cors()); // comunicação entre front-end e back-end, e envia a resposta para o front-end
-app.use(express.json());  // transforma para json
+app.use(cors());
+app.use(express.json()); 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ----- ROTAS -----

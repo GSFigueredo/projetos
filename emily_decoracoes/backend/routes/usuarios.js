@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
     const {email, senha} = req.body;
 
     const query = 'select id, nome, email, senha from usuarios where email = ?';
-    dbConnection.query(query, [email], (error, results) => { // results é um array de objetos, nativo do mysql2
+    dbConnection.query(query, [email], (error, results) => {
         if (error) {
             console.error('Erro ao efetuar o login:', error);
             return res.status(500).json({ error: 'Erro ao efetuar o login' });
@@ -53,7 +53,7 @@ router.post('/login', (req, res) => {
         }
 
         const token = jwt.sign({ id: results[0].id }, process.env.JWT_SECRET, {
-            expiresIn: parseInt(process.env.JWT_EXPIRES) // converte a string para inteiro
+            expiresIn: parseInt(process.env.JWT_EXPIRES)
         })
 
         res.status(200).json({
@@ -117,4 +117,4 @@ router.post('/verificarLogin', (req, res) => {
     )
 });
 
-module.exports = router; // export para que o server.js use as rotas
+module.exports = router;
