@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    funcionario VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (administrador IN ('True', 'False')),
+    funcionario VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (funcionario IN ('True', 'False')),
     administrador VARCHAR(50) NOT NULL DEFAULT 'False' CHECK (administrador IN ('True', 'False'))
 );
 
