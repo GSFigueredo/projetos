@@ -1,6 +1,11 @@
 import { verificarLogin } from '../autenticador/index.js';
 import { getCookie } from '../autenticador/index.js';
 
+$(document).ready(async () => {
+  const user = await verificarLogin();
+  user ? usuarioLogado(user) : null;
+});
+
 function sairSistema() {
     const id = getCookie('id');
     const token = getCookie('token');
@@ -8,6 +13,8 @@ function sairSistema() {
     if(id && token) {
         document.cookie = "id=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;";
         document.cookie = "token=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;";
+        window.location.href = 'index.html';
+    } else {
         window.location.href = 'index.html';
     }
 }
@@ -53,8 +60,3 @@ function usuarioLogado(user) {
       });
     }
 }
-
-$(document).ready(async () => {
-  const user = await verificarLogin();
-  user ? usuarioLogado(user) : null;
-});

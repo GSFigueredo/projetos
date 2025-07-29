@@ -1,3 +1,5 @@
+$('#btn_login').click(logarCliente);
+
 async function logarCliente () {
     const login = {
         email: $('#email').val(),
@@ -37,5 +39,3 @@ async function logarCliente () {
     }
     
 }
-
-$('#btn_login').click(logarCliente);

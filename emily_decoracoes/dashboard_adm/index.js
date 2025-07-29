@@ -1,6 +1,20 @@
 import { verificarLogin } from '../autenticador/index.js';
 import { getCookie } from '../autenticador/index.js';
 
+$(document).ready(async () => {
+  const user = await verificarLogin();
+
+  if(user && user.funcionario == true && user.administrador == true) {
+    usuarioLogado(user)
+  } else {
+    alert('Sem permissão para acessar ou sem login detectado')
+    window.location.href = '../dashboard_login/index.html';
+  }
+  //user ? usuarioLogado(user) : alert('Você deve estar logado para acessar a página de administrador')
+});
+
+$('#btn_adicionarProd').click(adicionarProduto);
+
 function sairSistema() {
     const id = getCookie('id');
     const token = getCookie('token');
@@ -71,28 +85,12 @@ async function adicionarProduto () {
 
         if(resposta.status == 200) {
           alert('Produto cadastrado com sucesso');
-          
         } else {
           alert(`Erro ao inserir produto: ${dados.error}`)
         }
 
     } catch(error) {
-        console.log('Erro ao cadastar produto');
+        console.log('Erro ao cadastar produto: '+ error);
     }
 
 }
-
-$(document).ready(async () => {
-  const user = await verificarLogin();
-
-  if(user) {
-    usuarioLogado(user)
-  } else {
-    alert('Você deve estar logado para acessar a página de administrador')
-    window.location.href = '../dashboard_login/index.html';
-  }
-
-  //user ? usuarioLogado(user) : alert('Você deve estar logado para acessar a página de administrador')
-});
-
-$('#btn_adicionarProd').click(adicionarProduto);

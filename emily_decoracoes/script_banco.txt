@@ -24,6 +24,15 @@ CREATE TABLE IF NOT EXISTS produtos (
     imagem VARCHAR(255) NULL
 );
 
+-- Tabela de solicitação de agendamento 
+CREATE TABLE IF NOT EXISTS solicitacao_agendamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,
+    data_agendamento DATETIME NOT NULL,
+    resposta_solicitacao VARCHAR(500) DEFAULT 'Aguardando resposta!',
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
 -- Tabela de Agendamentos.
 CREATE TABLE IF NOT EXISTS agendamentos (
     id INT AUTO_INCREMENT PRIMARY KEY,

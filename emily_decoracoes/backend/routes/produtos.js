@@ -17,11 +17,12 @@ const upload = multer({ storage });
 //API de inserir produtos
 router.post('/inserir', upload.single('imagem'), (req, res) => {
     const{nome, desc, preco, tipo, cor, modelo} = req.body;
-    let {path} = req.file
 
     if(!nome || !desc || !preco || !tipo || !cor || !modelo || !req.file) {
         return res.status(400).json({error: 'Todos os campos são obrigatórios'});
     } 
+
+    let {path} = req.file
     
     //return console.log(nome, desc, preco, tipo, cor, modelo, path)
 

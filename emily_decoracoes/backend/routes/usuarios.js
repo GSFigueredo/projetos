@@ -101,6 +101,19 @@ router.post('/verificarLogin', (req, res) => {
                     }
                 }
             );
+        } else if (results[0].funcionario == 'True' && results[0].administrador == 'False') {
+            res.status(200).json({
+                    message: 'Login verificado com sucesso',
+                    user: { 
+                        id: results[0].id,
+                        nome: results[0].nome,
+                        email: results[0].email,
+                        funcionario: true,
+                        administrador: false,
+                        token: token
+                    }
+                }
+            );
         } else { 
             res.status(200).json({
             message: 'Login verificado com sucesso',
