@@ -55,9 +55,8 @@ async function redirecionarLogado(cliente) {
         if(resposta.status === 200) {
             const {user} = dados;
             alert(`Bem-vindo(a) ${user.nome}!`);
-            localStorage.clear();
-            localStorage.setItem('token', user.token);
-            localStorage.setItem('id', user.id)
+            document.cookie = `id=${user.id}; max-age=3600; path=/;`; // 1 hora local - 4h no total devido ao horario GMT
+            document.cookie = `token=${user.token}; max-age=3600; path=/;`;
             window.location.href = '../dashboard_principal/index.html';
         } else {
             alert(`Erro ao efetuar o login: ${dados.error}`);
