@@ -5,7 +5,7 @@ function usuarioLogado(user) {
     let linkLogin = $("#link_login");
     let linkCadastro = $("#link_cadastro");
 
-    if(user.funcionario = true && user.administrador == true) {
+    if(user.funcionario == true && user.administrador == true) {
         linkLogin.attr({
         "href": '../dashboard_adm/index.html',
         "class": 'nav-link links'
@@ -56,7 +56,7 @@ async function adicionarProduto () {
             body: formData
         })
 
-        const dados = resposta.json();
+        const dados = await resposta.json();
 
         if(resposta.status == 200) {
           alert('Produto cadastrado com sucesso');
