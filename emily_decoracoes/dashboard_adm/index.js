@@ -76,6 +76,7 @@ async function adicionarProduto () {
     //console.log(formData.get('imagem')); //só é possível acessar os atributos de um objeto FormData via metodo get
 
     try {
+        
         const resposta = await fetch('http://localhost:3001/api/produtos/inserir', {
             method: 'POST',
             body: formData

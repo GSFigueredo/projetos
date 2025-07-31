@@ -1,5 +1,6 @@
 import { verificarLogin } from '../autenticador/index.js';
 import { getCookie } from '../autenticador/index.js';
+import { mostrarModal } from '../global/modal/modal.js'
 
 $('#btn_agendar').click(validarDados);
 
@@ -8,11 +9,11 @@ async function validarDados() {
     user ? true : false;
 
     if(!user) {
-        alert('Voce deve estar logado para realizar um agendamento.');
+        mostrarModal('danger', 'Erro ao solicitar agendamento', 'Você deve estar logado para solicitar um agendamento', 'Ir para tela de login');
 
         setTimeout(() => {
             window.location.href = '../dashboard_login/index.html'
-        }, 500);
+        }, 2000);
 
         return;
     }
@@ -20,7 +21,7 @@ async function validarDados() {
     let data = $('#data').val();
 
     if(!data) {
-        alert('Selecione uma data para solicitar um agendamento.');
+        mostrarModal('warning', 'Erro ao solicitar agendamento', 'Você deve preencher uma data para solicitar o agendamento', 'Fechar');
         return;
     }
 
@@ -29,5 +30,5 @@ async function validarDados() {
 }
 
 function agendarVisita(user, data) {
-    
+    mostrarModal('success', 'Feita a solicitação de agendamento', 'Agora, você deve aguardar a resposta de um dos colaboradores, Atenciosamente!', 'Fechar');
 }
