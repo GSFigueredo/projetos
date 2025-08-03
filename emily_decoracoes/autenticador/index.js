@@ -28,12 +28,11 @@ export async function verificarLogin() {
         }
 
         try {
-            const resposta = await fetch('http://localhost:3001/api/usuarios/verificarLogin', {
-                method: 'POST',
+            const resposta = await fetch(`http://localhost:3001/api/usuarios/verificarLogin?id=${id}&token=${token}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(login)
+                }
             }
             )
 

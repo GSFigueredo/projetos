@@ -69,8 +69,8 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.post('/verificarLogin', (req, res) => {
-    const {id, token} = req.body;
+router.get('/verificarLogin', (req, res) => {
+    const {id, token} = req.query;
 
     if (!id || !token) {
         return res.status(400).json({ error: 'ID e token são obrigatórios.' });

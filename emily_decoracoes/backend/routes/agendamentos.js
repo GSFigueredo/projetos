@@ -2,6 +2,41 @@ const express = require('express');
 const router = express.Router();
 const dbConnection = require('../configs/db');
 
+//API de validação do horario
+router.get('/validacao', (req, res) => {
+    const {data} = req.query;
+
+    if(!data) {
+      return res.status(400).json({ error: 'Você deve selecionar uma data.' });
+    }
+    
+    let query = `
+    select 
+        id 
+      from 
+        agendamentos 
+      where 
+        data_agendamento = ? 
+    `;
+
+    query += ` and stativo = 'True'`
+    
+    dbConnection.query(query, [data], (error, results) => {
+        if(error) {
+          return res.status(500).json({ error: 'Erro ao solicitar agendamento.'})
+        }
+
+        if(results.length > 0) {
+          return res.status(409).json({ error: 'Já existe um agendamento para a data selecionada, favor escolher outro dia ou outro horário!' })
+        }
+
+        return res.status(200).json({
+            message: true
+        });
+    });
+
+});
+
 //API de solicitação de agendamento
 router.post('/solicitacao', (req, res) => {
     const {usuario_id, data_agendamento, status, stativo} = req.body;
