@@ -1,8 +1,7 @@
-import { verificarLogin } from '../autenticador/index.js';
-import { getCookie } from '../autenticador/index.js';
+import * as autenticador from '../autenticador/index.js';
 
 $(document).ready(async () => {
-  const user = await verificarLogin();
+  const user = await autenticador.verificarLogin();
 
   if(user && user.funcionario == true && user.administrador == true) {
     usuarioLogado(user)
@@ -14,17 +13,6 @@ $(document).ready(async () => {
 });
 
 $('#btn_adicionarProd').click(adicionarProduto);
-
-function sairSistema() {
-    const id = getCookie('id');
-    const token = getCookie('token');
-
-    if(id && token) {
-        document.cookie = "id=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;";
-        document.cookie = "token=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;";
-        window.location.href = 'index.html';
-    }
-}
 
 function usuarioLogado(user) {
 
@@ -46,7 +34,7 @@ function usuarioLogado(user) {
 
       linkCadastro.on('click', evento => {
         evento.preventDefault();
-        sairSistema();
+        autenticador.sairSistema();
       });
     } 
 }

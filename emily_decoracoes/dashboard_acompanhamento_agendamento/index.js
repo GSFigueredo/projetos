@@ -2,7 +2,13 @@ import * as autenticador from '../autenticador/index.js';
 
 $(document).ready(async () => {
   const user = await autenticador.verificarLogin();
-  user ? usuarioLogado(user) : null;
+
+  if(user) {
+    usuarioLogado(user); 
+  } else { 
+    alert('Sem permissão para acessar ou sem login detectado')
+    window.location.href = '../dashboard_login/index.html';
+  }
 });
 
 function usuarioLogado(user) {
@@ -12,29 +18,10 @@ function usuarioLogado(user) {
     let linkLogin = $("#link_login");
     let linkCadastro = $("#link_cadastro");
 
-    if(user.funcionario = true && user.administrador == true) {
-        linkLogin.attr({
-        "href": '../dashboard_adm/index.html',
-        "class": 'nav-link sair'
-      })
-      linkLogin.text(`Admin`)
-
-      linkCadastro.attr({
-        "href": 'index.html',
-        "class": 'nav-link sair'
-      })
-      linkCadastro.text(`SAIR`)
-
-      linkCadastro.on('click', evento => {
-        evento.preventDefault();
-        autenticador.sairSistema();
-      });
-    } else {
-
       linkLogin.attr({
-        "href": '../dashboard_acompanhamento_agendamento/index.html'
+        "href": '../dashboard_principal/index.html'
       })
-      linkLogin.text(`Meus agendamentos`)
+      linkLogin.text(`Catálogo`)
 
       linkCatalogo.attr({
         "href": 'index.html',
@@ -51,5 +38,4 @@ function usuarioLogado(user) {
         evento.preventDefault();
         autenticador.sairSistema();
       });
-    }
 }

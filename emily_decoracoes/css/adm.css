@@ -5,6 +5,10 @@ body{
     background-color: #ebeef1;
 }
 
+.borda_esquerda {
+  border-left: 4px solid purple;
+}
+
 .links {
     font-size: 1.0rem;
     color: #530e6e;

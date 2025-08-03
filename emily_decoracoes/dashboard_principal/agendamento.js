@@ -1,11 +1,10 @@
-import { verificarLogin } from '../autenticador/index.js';
-import { getCookie } from '../autenticador/index.js';
+import * as autenticador from '../autenticador/index.js';
 import { mostrarModal } from '../global/modal/modal.js'
 
 $('#btn_agendar').click(validarDados);
 
 async function validarDados() {
-    const user = await verificarLogin();
+    const user = await autenticador.verificarLogin();
     user ? true : false;
 
     if(!user) {
