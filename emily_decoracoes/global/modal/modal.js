@@ -1,6 +1,6 @@
-export function mostrarModal(tipo, titulo, mensagem, textBtn) {
+export function mostrarModal(tipo = 'secondary', titulo, mensagem, textBtn) {
     // tipo: success, warning, danger
-    const cor = tipo || 'secondary';
+    const cor = tipo;
 
     document.getElementById('modal-tit').innerHTML = titulo;
     document.getElementById('modal-corp').innerHTML = mensagem;

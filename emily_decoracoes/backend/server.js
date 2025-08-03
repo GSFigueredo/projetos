@@ -19,6 +19,10 @@ app.use('/api/usuarios/', usuariosRoutes);
 const produtosRoutes = require('./routes/produtos.js')
 app.use('/api/produtos/', produtosRoutes);
 
+//Agendamentos
+const agendamentosRoutes = require('./routes/agendamentos.js')
+app.use('/api/agendamentos/', agendamentosRoutes);
+
 app.listen(porta, () => {
   console.log(`Servidor rodando na porta ${porta}.`);
 });
