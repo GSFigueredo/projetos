@@ -51,8 +51,24 @@
         <main>
             <div class="container" style="margin-top: 5%;">
                 <div class="card mb-4 borda_esquerda"> 
-                  <div class="card-header"> <h3 class="titulo_cards card-title">Carrinho de compras</h3></div>
-                  <div class="card-body"> Seu carrinho está vazio</div>
+                  <div class="card-header"> <h3 class="titulo_cards card-title">Meus agendamentos</h3></div>
+                  <div class="card-body">
+                    <table class="table table-bordered table-hover table-responsive">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>NÚMERO AGENDAMENTO</th>
+                                    <th>USUARIO</th>
+                                    <th>DATA</th>
+                                    <th>STATUS</th>
+                                    <th>SITUAÇÃO</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="table_results">
+                                
+                            </tbody>
+                        </table>
+                  </div>
               </div>
 
             <div class="modal fade" id="mostraModal" tabindex="-1" role="dialog" aria-labelledby="sucesso">

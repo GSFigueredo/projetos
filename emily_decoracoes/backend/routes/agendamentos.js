@@ -64,4 +64,44 @@ router.post('/solicitacao', (req, res) => {
 
 });
 
+//API de verificação de agendamentos por usuário
+router.get('/verificarAgendamentos', (req, res) => {
+    const {usuario_id} = req.query;
+
+    if(!usuario_id) {
+      return res.status(400).json({ error: 'Você deve estar logado para checar os agendamentos.' });
+    }
+    
+    let query = `
+      select
+        id, 
+        usuario_id,
+        data_agendamento,
+        status,
+        stativo
+      from
+        agendamentos
+      where
+        usuario_id = ?
+      order by 
+        data_agendamento
+    `;
+    
+    dbConnection.query(query, [usuario_id], (error, results) => {
+        if(error) {
+          return res.status(500).json({ error: 'Erro ao verificar os agendamentos.'})
+        }
+
+        if(results.length == 0) {
+          return res.status(409).json({ error: 'Não há nenhum agendamento/solicitação para sua conta.' })
+        }
+
+        return res.status(200).json({
+            message: 'ok',
+            dados: results
+        });
+    });
+
+});
+
 module.exports = router;
