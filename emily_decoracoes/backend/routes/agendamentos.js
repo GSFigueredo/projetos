@@ -23,6 +23,7 @@ router.get('/validacao', (req, res) => {
     
     dbConnection.query(query, [data], (error, results) => {
         if(error) {
+          console.log(error);
           return res.status(500).json({ error: 'Erro ao solicitar agendamento.'})
         }
 
@@ -48,6 +49,7 @@ router.post('/solicitacao', (req, res) => {
     const query = 'insert into agendamentos (usuario_id, data_agendamento, status, stativo) values (?, ?, ?, ?);';
     dbConnection.query(query, [usuario_id, data_agendamento, status, stativo], (error, results) => {
         if(error) {
+          console.log(error);
           return res.status(500).json({ error: 'Erro ao solicitar agendamento.'});
         }
 

@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS agendamentos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT,
     data_agendamento DATETIME NOT NULL,
+    status varchar(500) default 'Pendente',
+    stativo varchar(30) NOT NULL DEFAULT 'True' CHECK (stativo IN ('True', 'False')),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
