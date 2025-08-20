@@ -1,4 +1,4 @@
-import * as autenticador from '../autenticador/index.js';
+import * as autenticador from '../services/autenticador/index.js';
 import { mostrarModal } from '../components/modal/modal.js';
 
 $(document).ready(async () => {

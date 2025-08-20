@@ -1,4 +1,4 @@
-import * as autenticador from '../autenticador/index.js';
+import * as autenticador from '../services/autenticador/index.js';
 
 $(document).ready(async () => {
   const user = await autenticador.verificarLogin();
