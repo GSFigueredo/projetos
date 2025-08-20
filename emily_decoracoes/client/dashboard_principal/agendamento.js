@@ -1,5 +1,5 @@
 import * as autenticador from '../../backend/autenticador/index.js';
-import { mostrarModal } from '../../global/modal/modal.js'
+import { mostrarModal } from '../assets/components/modal/modal.js'
 
 $('#btn_agendar').click(validarDados);
 
