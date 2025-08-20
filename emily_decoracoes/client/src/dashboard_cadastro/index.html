@@ -16,7 +16,7 @@
             crossorigin="anonymous"
         />
 
-        <link rel="stylesheet" href="../assets/css/login.css">
+        <link rel="stylesheet" href="../assets/css/cadastro.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
@@ -26,7 +26,7 @@
             <div class="container" style="margin-top: 2%;">
                 <div class="row">
                     <div class="col-3">
-                        <a href="index.html"><img style="width: 60%; margin-left: 5%;" src="../../backend/public/img/logo.png" alt="Emily Decorações" class="img-fluid"/></a>
+                        <a href="index.html"><img style="width: 60%; margin-left: 5%;" src="../assets/img/logo.png" alt="Emily Decorações" class="img-fluid"/></a>
                     </div>
 
                     <div class="col-9">
@@ -36,10 +36,10 @@
                                     <a class="nav-link active links" href="../dashboard_principal/index.html">Catálogo</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link links" href="index.html">Login</a>
+                                    <a class="nav-link links" href="../dashboard_login/index.html">Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link links" href="../dashboard_cadastro/index.html">Cadastro</a>
+                                    <a class="nav-link links" href="index.html">Cadastro</a>
                                 </li>
                             </ul>
                         </navbar>
@@ -52,19 +52,30 @@
         <main class="container">
             <div class="d-flex justify-content-center mt-5">
                 <div class="card p-4 shadow borda_esquerda" style="width: 50%;">
-                    <h5 class="titulos mb-3">Acessar sua Conta</h5>
+                    <h5 class="titulos mb-3">Crie sua conta</h5>
                     <hr>
+
+                    <p>Cadastre-se para agendar visitas e finalizar seus pedidos</p>
+
                     <div>
                         <div class="mb-3">
-                            <input id="email" class="form-control" placeholder="E-mail">
+                            <input type="text" id="nome" class="form-control" placeholder="Nome completo">
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="email" id="email" class="form-control" placeholder="E-mail">
                         </div>
                         <div class="mb-3">
-                            <input id="senha" type="password" class="form-control" placeholder="Senha">
+                            <input type="password" id="senha" class="form-control" placeholder="Senha">
                         </div>
-                        <button id="btn_login" class="btn fw-bold w-100" style="background-color: #e5007d; color: white;">ENTRAR</button>
+
+                        <div class="mb-3">
+                            <input type="password" id="confirmar_senha" class="form-control" placeholder="Confirmar senha">
+                        </div>
+                        <button id="btn_cadastro" class="btn fw-bold w-100" style="background-color: #e5007d; color: white;">CADASTRAR E ENTRAR</button>
                     </div>
                     <div class="text-center mt-3">
-                    <small>Não tem uma conta? <a href="../dashboard_cadastro/index.html">Cadastre-se</a></small>
+                    <small>Já tem uma conta? <a href="../dashboard_login/index.html">Faça o login</a></small>
                     </div>
                 </div>
             </div>
