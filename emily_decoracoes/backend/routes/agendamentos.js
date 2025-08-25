@@ -76,17 +76,21 @@ router.get('/verificarAgendamentos', (req, res) => {
     
     let query = `
       select
-        id, 
-        usuario_id,
-        data_agendamento,
-        status,
-        stativo
-      from
-        agendamentos
-      where
-        usuario_id = ?
-      order by 
-        data_agendamento
+        tba.id,
+        tba.usuario_id,
+        tbu.nome,
+        tbu.email,
+        tba.data_agendamento,
+        tba.status,
+        tba.stativo
+    from
+      agendamentos tba
+    inner join usuarios tbu on
+      tba.usuario_id = tbu.id
+    where
+      usuario_id = ?
+    order by
+      data_agendamento
     `;
     
     dbConnection.query(query, [usuario_id], (error, results) => {

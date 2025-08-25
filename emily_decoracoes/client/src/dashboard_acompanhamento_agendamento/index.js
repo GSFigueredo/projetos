@@ -55,12 +55,29 @@ async function verificarAgendamentos (user) {
 
       if(resposta.status == 200) {
         const {dados} = resp;
+        let agendamentos = [];
 
         for(let registro of dados) {
-          let tabela = $("#table_results");
-          let linha = `<tr><td>${registro.id}</td><td>ID:${registro.usuario_id} | ${user.nome}</td><td>${registro.data_agendamento}</td><td>${registro.status}</td><td>${registro.stativo == 'True' ? 'Ativo': 'Inativo'}</td></tr>`
-          tabela.append(linha)
+          let id = registro.id; 
+          let usuario_id = registro.usuario_id;
+          let nome = registro.nome;
+          let email = registro.email;
+          let data_agendamento = registro.data_agendamento;
+          let status = registro.status;
+          let stativo = registro.stativo;
+
+          agendamentos.push([
+            id,
+            usuario_id, 
+            nome, 
+            email,
+            data_agendamento,
+            status,
+            stativo
+          ]);
         }
+
+        criarDataTableAgendamentos(agendamentos)
 
       } else if(resposta.status == 409) {
          mostrarModal('warning', 'Não foi encontrado nenhum agendamento', `Não foi encontrado nenhum agendamento para o usuário ${user.nome}`, 'Fechar');
@@ -70,4 +87,44 @@ async function verificarAgendamentos (user) {
     } catch (error) {
       mostrarModal('danger', 'Erro ao verificar agendamentos', `${error}`, 'Fechar');
     }
+}
+
+function criarDataTableAgendamentos(produtosArray) {
+  if ($.fn.DataTable.isDataTable('#data-table-produtos') ) {
+    $('#data-table-produtos').DataTable().destroy();
+  };
+
+  $('#data-table-produtos').DataTable({
+      data: produtosArray,
+      deferRender: true,
+      columnDefs: [
+        { "width": "100px", "targets": "_all" }],
+      responsive: true,
+      language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+        },
+      dom: "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'lB>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+      buttons: [
+        {
+          extend: 'pdfHtml5',
+          text: 'PDF',
+          titleAttr: 'Generate PDF',
+          className: 'btn-light btn-outline-danger btn-sm mr-1'
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Excel',
+          titleAttr: 'Generate Excel',
+          className: 'btn-light btn-outline-success btn-sm mr-1'
+        },
+        {
+          extend: 'print',
+          text: 'Print',
+          titleAttr: 'Print Table',
+          className: 'btn-light btn-outline-primary btn-sm'
+        }
+      ]
+    });
 }

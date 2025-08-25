@@ -143,7 +143,7 @@ function criarDataTableProdutos(produtosArray) {
   if ($.fn.DataTable.isDataTable('#data-table-produtos') ) {
     $('#data-table-produtos').DataTable().destroy();
   };
-  
+
   $('#data-table-produtos').DataTable({
       data: produtosArray,
       deferRender: true,
@@ -161,20 +161,24 @@ function criarDataTableProdutos(produtosArray) {
           extend: 'pdfHtml5',
           text: 'PDF',
           titleAttr: 'Generate PDF',
-          className: 'btn-outline-danger btn-sm mr-1'
+          className: 'btn-light btn-outline-danger btn-sm mr-1'
         },
         {
           extend: 'excelHtml5',
           text: 'Excel',
           titleAttr: 'Generate Excel',
-          className: 'btn-outline-success btn-sm mr-1'
+          className: 'btn-light btn-outline-success btn-sm mr-1'
         },
         {
           extend: 'print',
           text: 'Print',
           titleAttr: 'Print Table',
-          className: 'btn-outline-primary btn-sm'
+          className: 'btn-light btn-outline-primary btn-sm'
         }
       ]
     });
+}
+
+function visualizarProduto(id, imagem) {
+  console.log(id)
 }
