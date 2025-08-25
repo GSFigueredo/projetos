@@ -114,7 +114,7 @@ async function carregarProdutos() {
         let opcoes;
 
         if (id > 0) {
-          opcoes = `<div class="btn-group btn-group-xs"><button type="button" class="btn btn-info btn-xs" title="Visualizar Produto" onclick="visualizarProduto(${id})">Visualizar</button><button type="button" class="btn btn-warning btn-xs" title="Editar produto" onclick="editarProduto(${id})">Editar</button><button type="button" class="btn btn-primary btn-xs" title="Excluir Produto" onclick="excluirProduto(${id})">Excluir</button></div>`;
+          opcoes = `<div class="btn-group btn-group-xs"><button type="button" class="btn btn-info btn-xs" title="Visualizar Produto" onclick="visualizarProduto(${id}, ${imagem})">Visualizar</button><button type="button" class="btn btn-warning btn-xs" title="Editar produto" onclick="editarProduto(${id})">Editar</button><button type="button" class="btn btn-primary btn-xs" title="Excluir Produto" onclick="excluirProduto(${id})">Excluir</button></div>`;
         }
 
         produtosArray.push([
@@ -124,13 +124,11 @@ async function carregarProdutos() {
           tipo,
           cor,
           modelo,
-          imagem,
           data_inclusao,
           opcoes
         ])
       };
 
-      console.log(produtosArray)
       criarDataTableProdutos(produtosArray);
     } else { 
       mostrarModal('danger', 'Erro ao consultar produtos', `${dados.error}`, 'Fechar');
@@ -144,21 +142,13 @@ async function carregarProdutos() {
 function criarDataTableProdutos(produtosArray) {
   if ($.fn.DataTable.isDataTable('#data-table-produtos') ) {
     $('#data-table-produtos').DataTable().destroy();
-  }
+  };
+  
   $('#data-table-produtos').DataTable({
       data: produtosArray,
       deferRender: true,
       columnDefs: [
-          { width: "40px", targets: 0 },  // Id
-          { width: "150px", targets: 1 }, // Nome
-          { width: "200px", targets: 2 }, // Descrição
-          { width: "100px", targets: 3 }, // Tipo
-          { width: "80px",  targets: 4 }, // Cor
-          { width: "100px", targets: 5 }, // Modelo
-          { width: "150px", targets: 6 }, // Imagem
-          { width: "120px", targets: 7 }, // Data Inclusão
-          { width: "150px", targets: 8 }  // Opções
-      ],
+        { "width": "100px", "targets": "_all" }],
       responsive: true,
       language: {
             url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
@@ -186,19 +176,5 @@ function criarDataTableProdutos(produtosArray) {
           className: 'btn-outline-primary btn-sm'
         }
       ]
-    });
-
-    $('#data-table-produtos tbody').on('click', 'td.details-control', function () {
-        const tr = $(this).closest('tr');
-        const row = table.row(tr);
-
-        if (row.child.isShown()) {
-            row.child.hide();
-            tr.removeClass('shown');
-        } else {
-            // A função format() precisa ser definida em algum lugar no seu código
-            row.child(format(row.data())).show(); 
-            tr.addClass('shown');
-        }
     });
 }

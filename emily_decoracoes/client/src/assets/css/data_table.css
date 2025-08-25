@@ -1,21 +1,17 @@
-/* Cabeçalho da tabela */
 #data-table-produtos thead {
-    background-color: #6f42c1; /* roxo */
+    background-color: #6f42c1;
     color: #fff;
     font-weight: bold;
 }
 
-/* Linhas alternadas */
 #data-table-produtos tbody tr:nth-child(odd) {
-    background-color: #f8f9fa; /* cinza claro */
+    background-color: #f8f9fa;
 }
 
-/* Linhas ao passar o mouse */
 #data-table-produtos tbody tr:hover {
-    background-color: #e2e6ea; /* cinza médio */
+    background-color: #e2e6ea;
 }
 
-/* Botões de ação */
 .btn-visualizar { background-color: #17a2b8; color: #fff; }
 .btn-editar { background-color: #ffc107; color: #000; }
 .btn-excluir { background-color: #007bff; color: #fff; }
