@@ -1,0 +1,44 @@
+/* Cabeçalho da tabela */
+#data-table-produtos thead {
+    background-color: #6f42c1; /* roxo */
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Linhas alternadas */
+#data-table-produtos tbody tr:nth-child(odd) {
+    background-color: #f8f9fa; /* cinza claro */
+}
+
+/* Linhas ao passar o mouse */
+#data-table-produtos tbody tr:hover {
+    background-color: #e2e6ea; /* cinza médio */
+}
+
+/* Botões de ação */
+.btn-visualizar { background-color: #17a2b8; color: #fff; }
+.btn-editar { background-color: #ffc107; color: #000; }
+.btn-excluir { background-color: #007bff; color: #fff; }
+.btn-visualizar:hover, .btn-editar:hover, .btn-excluir:hover {
+    opacity: 0.8;
+}
+
+#data-table-produtos td, 
+#data-table-produtos th {
+    padding: 8px 12px;
+    vertical-align: middle;
+}
+
+#data-table-produtos th {
+    text-align: center;
+}
+
+#data-table-produtos td {
+    text-align: center;
+}
+
+#data-table-produtos .btn {
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}

@@ -1,10 +1,12 @@
 import * as autenticador from '../services/autenticador/index.js';
+import { mostrarModal } from '../components/modal/modal.js'
 
 $(document).ready(async () => {
   const user = await autenticador.verificarLogin();
 
-  if(user && user.funcionario == true && user.administrador == true) {
+  if(user) {
     usuarioLogado(user)
+    carregarProdutos();
   } else {
     alert('Sem permissão para acessar ou sem login detectado')
     window.location.href = '../dashboard_login/index.html';
@@ -82,4 +84,121 @@ async function adicionarProduto () {
         console.log('Erro ao cadastar produto: '+ error);
     }
 
+}
+
+async function carregarProdutos() {
+  
+  try {
+    const resposta = await fetch('http://localhost:3001/api/produtos/consultarProdutos', {
+      method: 'GET',
+      headers: {
+            'Content-Type': 'application/json'
+          }
+    });
+
+    const dados = await resposta.json();
+
+    if(resposta.status == 200) {
+      const {produtos} = dados;
+      let produtosArray = [];
+
+      for(let registro of produtos) {
+        let id = registro.id; 
+        let nome = registro.nome; 
+        let descricao = registro.descricao;
+        let tipo = registro.tipo; 
+        let cor = registro.cor; 
+        let modelo = registro.modelo; 
+        let imagem = registro.imagem; 
+        let data_inclusao = registro.data_inclusao;
+        let opcoes;
+
+        if (id > 0) {
+          opcoes = `<div class="btn-group btn-group-xs"><button type="button" class="btn btn-info btn-xs" title="Visualizar Produto" onclick="visualizarProduto(${id})">Visualizar</button><button type="button" class="btn btn-warning btn-xs" title="Editar produto" onclick="editarProduto(${id})">Editar</button><button type="button" class="btn btn-primary btn-xs" title="Excluir Produto" onclick="excluirProduto(${id})">Excluir</button></div>`;
+        }
+
+        produtosArray.push([
+          id,
+          nome,
+          descricao,
+          tipo,
+          cor,
+          modelo,
+          imagem,
+          data_inclusao,
+          opcoes
+        ])
+      };
+
+      console.log(produtosArray)
+      criarDataTableProdutos(produtosArray);
+    } else { 
+      mostrarModal('danger', 'Erro ao consultar produtos', `${dados.error}`, 'Fechar');
+    }
+
+  } catch(error) {
+    mostrarModal('danger', 'Erro ao solicitar o agendamento', `${error}`, 'Fechar');
+  }
+}
+
+function criarDataTableProdutos(produtosArray) {
+  if ($.fn.DataTable.isDataTable('#data-table-produtos') ) {
+    $('#data-table-produtos').DataTable().destroy();
+  }
+  $('#data-table-produtos').DataTable({
+      data: produtosArray,
+      deferRender: true,
+      columnDefs: [
+          { width: "40px", targets: 0 },  // Id
+          { width: "150px", targets: 1 }, // Nome
+          { width: "200px", targets: 2 }, // Descrição
+          { width: "100px", targets: 3 }, // Tipo
+          { width: "80px",  targets: 4 }, // Cor
+          { width: "100px", targets: 5 }, // Modelo
+          { width: "150px", targets: 6 }, // Imagem
+          { width: "120px", targets: 7 }, // Data Inclusão
+          { width: "150px", targets: 8 }  // Opções
+      ],
+      responsive: true,
+      language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+        },
+      dom: "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'lB>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+      buttons: [
+        {
+          extend: 'pdfHtml5',
+          text: 'PDF',
+          titleAttr: 'Generate PDF',
+          className: 'btn-outline-danger btn-sm mr-1'
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Excel',
+          titleAttr: 'Generate Excel',
+          className: 'btn-outline-success btn-sm mr-1'
+        },
+        {
+          extend: 'print',
+          text: 'Print',
+          titleAttr: 'Print Table',
+          className: 'btn-outline-primary btn-sm'
+        }
+      ]
+    });
+
+    $('#data-table-produtos tbody').on('click', 'td.details-control', function () {
+        const tr = $(this).closest('tr');
+        const row = table.row(tr);
+
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // A função format() precisa ser definida em algum lugar no seu código
+            row.child(format(row.data())).show(); 
+            tr.addClass('shown');
+        }
+    });
 }

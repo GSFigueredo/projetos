@@ -16,21 +16,20 @@ const upload = multer({ storage });
 
 //API de inserir produtos
 router.post('/inserir', upload.single('imagem'), (req, res) => {
-    const{nome, desc, preco, tipo, cor, modelo} = req.body;
+    const{nome, desc, preco, tipo, cor, modelo, dtinclusao} = req.body;
 
     if(!nome || !desc || !preco || !tipo || !cor || !modelo || !req.file) {
         return res.status(400).json({error: 'Todos os campos são obrigatórios'});
     } 
 
-    let {path} = req.file
+    let {path} = req.file;
     
     //return console.log(nome, desc, preco, tipo, cor, modelo, path)
 
-    const query = 'INSERT INTO PRODUTOS (nome, descricao, preco, tipo, cor, modelo, imagem) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    const query = 'INSERT INTO PRODUTOS (nome, descricao, preco, tipo, cor, modelo, imagem, data_inclusao) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())'
     dbConnection.query(query, [nome, desc, preco, tipo, cor, modelo, path], (error, results) => {
         if(error) {
             res.status(500).json({ error: 'Erro ao inserir produto'});
-
             console.log(error)
         }
 
@@ -48,7 +47,22 @@ router.post('/inserir', upload.single('imagem'), (req, res) => {
         });
 
     });
-    
+});
+
+router.get('/consultarProdutos', (req, res) => {
+    let query = `select * from produtos;`;
+
+    dbConnection.query(query, (error, results) => {
+      if(error) {
+            res.status(500).json({ error: 'Erro ao consultar produtos'});
+            console.log(error)
+        }
+
+        res.status(200).json ({
+            message: 'Produtos encontrados com sucesso',
+            produtos: results
+        });
+    });
 });
 
 module.exports = router;

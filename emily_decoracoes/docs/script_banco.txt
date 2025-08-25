@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS produtos (
     tipo ENUM('cortina', 'persiana') NOT NULL,
     cor VARCHAR(50),
     modelo VARCHAR(100),
-    imagem VARCHAR(255) NULL
+    imagem VARCHAR(255) null,
+    data_inclusao datetime not null
 );
 
 -- Tabela de solicitação de agendamento 
