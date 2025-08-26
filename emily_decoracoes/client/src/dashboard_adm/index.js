@@ -1,5 +1,5 @@
 import * as autenticador from '../services/autenticador/index.js';
-import { mostrarModal } from '../components/modal/modal.js'
+import { mostrarModal } from '../components/modal_error/modal_error.js'
 
 $(document).ready(async () => {
   const user = await autenticador.verificarLogin();
