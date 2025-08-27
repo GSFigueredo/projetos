@@ -11,7 +11,26 @@ $(document).ready(async () => {
     alert('Sem permissão para acessar ou sem login detectado')
     window.location.href = '../dashboard_login/index.html';
   }
-  //user ? usuarioLogado(user) : alert('Você deve estar logado para acessar a página de administrador')
+
+  $('#data-table-produtos tbody').on('click', 'button', function () {
+        const id = $(this).data('id');
+
+        if ($(this).hasClass('btn-visualizarProduto')) {
+            const imagem = $(this).data('imagem');
+            visualizarProduto(id, imagem);
+
+        } else if ($(this).hasClass('btn-editarProduto')) {
+            editarProduto(id);
+
+        } else if ($(this).hasClass('btn-excluirProduto')) {
+            excluirProduto(id);
+        }
+    });
+
+    $('#footerModal').on('click', '#btn-editar', function() {
+      const produtos = $(this).data('data-produtos');
+      atualizarInformacoesProduto(produtos);
+  });
 });
 
 $('#btn_adicionarProd').click(adicionarProduto);
@@ -114,7 +133,13 @@ async function carregarProdutos() {
         let opcoes;
 
         if (id > 0) {
-          opcoes = `<div class="btn-group btn-group-xs"><button type="button" class="btn btn-info btn-xs" title="Visualizar Produto" onclick="visualizarProduto(${id}, ${imagem})">Visualizar</button><button type="button" class="btn btn-warning btn-xs" title="Editar produto" onclick="editarProduto(${id})">Editar</button><button type="button" class="btn btn-primary btn-xs" title="Excluir Produto" onclick="excluirProduto(${id})">Excluir</button></div>`;
+          opcoes = `
+            <div class="btn-group btn-group-xs">
+              <button type="button" class="btn btn-info btn-xs btn-visualizarProduto" title="Visualizar Produto" data-id="${id}" data-imagem="${imagem}""">Visualizar</button>
+              <button type="button" class="btn btn-warning btn-xs btn-editarProduto" title="Editar produto" data-id="${id}"">Editar</button>
+              <button type="button" class="btn btn-primary btn-xs btn-excluirProduto" title="Excluir Produto" data-id="${id}"">Excluir</button>
+            </div>
+          `;
         }
 
         produtosArray.push([
@@ -180,5 +205,68 @@ function criarDataTableProdutos(produtosArray) {
 }
 
 function visualizarProduto(id, imagem) {
-  console.log(id)
+
+}
+
+async function editarProduto (id) {
+  try {
+    const respHtml = await fetch('../components/modal_editarProduto/modal_editarProduto.html');
+    const html = await respHtml.text();
+
+    $('main').append(html);
+
+    try {
+      const resposta = await fetch(`http://localhost:3001/api/produtos/consultarProdutos?id=${id}`, {
+        method: 'GET',
+        headers: {
+              'Content-Type': 'application/json'
+            }
+      });
+
+      const dados = await resposta.json();
+
+      if(resposta.status == 200) {
+        const {produtos} = dados;
+
+        $("#idproduto").val(`IDPRODUTO: ${produtos[0].id}`);
+        $("#nomeProdModal").val(produtos[0].nome);
+        $("#descProdModal").val(produtos[0].descricao);
+        $("#precoProdModal").val(produtos[0].preco);
+        $("#tipoProdModal").val(produtos[0].tipo);
+        $("#corProdModal").val(produtos[0].cor);
+        $("#modeloProdModal").val(produtos[0].modelo);
+        //$("#imagemProdModal").val(produtos[0].imagem);
+
+        $('#footerModal').html(
+          `
+          <button style="background-color: purple; color: white;" class="btn border" id="btn-fechar" type="button" data-bs-dismiss="modal">
+            Fechar
+          </button>
+
+          <button style="background-color: purple; color: white;" class="btn border" data-produtos="${produtos}"  id="btn-editar" type="button">
+            Salvar Alterações
+          </button>
+          `
+        )
+      } else {
+        mostrarModal('danger', 'Erro ao consultar produtos', `${dados.error}`, 'Fechar');
+      }
+
+    } catch(error) {
+      mostrarModal('danger', 'Erro ao editar o produto', `${error}`, 'Fechar');
+    }
+
+    $("#modaleditarProduto").modal('show');
+
+  } catch(error) {
+    mostrarModal('danger', 'Erro ao editar o produto', `${error}`, 'Fechar');
+  }
+};
+
+function atualizarInformacoesProduto(produtos) {
+  alert(`chegou com o produto id: ${produtos[0].id}`)
+}
+
+function excluirProduto(id) {
+
 }

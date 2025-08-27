@@ -32,8 +32,11 @@ exports.inserirProduto = async (req, res) => {
 };
 
 exports.consultarProdutos = async (req, res) => {
+
+    const id = req.query.id || false;
+
     try {
-        const results = await produtos.consultar();
+        const results = await produtos.consultar(id);
 
         res.status(200).json ({
             message: 'Produtos encontrados com sucesso',
@@ -41,6 +44,7 @@ exports.consultarProdutos = async (req, res) => {
         });
     } catch(error) {
         if(error.message == 'Erro ao consultar produtos'){
+            console.log(error.message);
             res.status(500).json({ error: error.message});
         }
     }

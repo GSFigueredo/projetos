@@ -1,0 +1,36 @@
+<div class="modal fade" id="modaleditarProduto" tabindex="-1" role="dialog" aria-labelledby="sucesso">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="tit-cor">
+                <h5 id="modal-tit" class="modal-title"></h5>
+            </div>
+            <div id="modal-corp" class="modal-body">
+                <div class="card-header"> <h3 class="titulo_cards card-title">Editar produto</h3></div> <br>
+                    <div class="card-body"> 
+                        <input disabled id="idproduto" class="form-control" type="text" placeholder="id do produto">
+                        <input id="nomeProdModal" class="form-control mt-2" type="text" title="Nome do produto" placeholder="Nome do produto">
+                        <input id="descProdModal" class="form-control mt-2" type="text" title="Descrição do produto" placeholder="Descrição">
+                        <input id="precoProdModal" class="form-control mt-2" type="number" title="Preço do produto" placeholder="R$ Preço">
+                        <select id="tipoProdModal" title="Tipo do produto" class="form-select mt-2">
+                            <option disabled selected hidden>Selecione o tipo</option>
+                            <option value="cortina"> Cortina</option>
+                            <option value="persiana"> Persiana</option>
+                        </select>
+                        <input id="corProdModal" class="form-control mt-2" type="text" title="Cor do produto" placeholder="Cor">
+                        <input id="modeloProdModal" class="form-control mt-2" type="text" title="Modelo do produto" placeholder="Modelo">
+                        <input class="mt-2 form-control" type="file" id="imagemProdModal" accept="image/*">
+                    </div>
+            </div>
+            <div id="footerModal" class="modal-footer">
+
+                <button style="background-color: purple; color: white;" class="btn border" id="btn-fechar" type="button" data-bs-dismiss="modal">
+                    bt-fechar
+                </button>
+
+                <button style="background-color: purple; color: white;" class="btn border" id="btn-editar" type="button" data-bs-dismiss="modal">
+                    bt-salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

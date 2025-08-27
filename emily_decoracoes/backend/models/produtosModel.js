@@ -15,11 +15,15 @@ const produtos = {
         });
     },
 
-    consultar() {
+    consultar(id) {
         return new Promise((resolve, reject) => {
-            let query = `select * from produtos;`;
+            let query = `select * from produtos where 1 = 1`;
 
-            dbConnection.query(query, (error, results) => {
+            if(id) {
+                query += ` and id = ?`
+            }
+
+            dbConnection.query(query, [id], (error, results) => {
                 if(error) {
                     console.log(error)
                     return reject(new Error('Erro ao consultar produtos'));
