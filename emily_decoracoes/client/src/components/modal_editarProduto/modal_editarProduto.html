@@ -1,36 +1,56 @@
-<div class="modal fade" id="modaleditarProduto" tabindex="-1" role="dialog" aria-labelledby="sucesso">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div id="tit-cor">
-                <h5 id="modal-tit" class="modal-title"></h5>
-            </div>
-            <div id="modal-corp" class="modal-body">
-                <div class="card-header"> <h3 class="titulo_cards card-title">Editar produto</h3></div> <br>
-                    <div class="card-body"> 
-                        <input disabled id="idproduto" class="form-control" type="text" placeholder="id do produto">
-                        <input id="nomeProdModal" class="form-control mt-2" type="text" title="Nome do produto" placeholder="Nome do produto">
-                        <input id="descProdModal" class="form-control mt-2" type="text" title="Descrição do produto" placeholder="Descrição">
-                        <input id="precoProdModal" class="form-control mt-2" type="number" title="Preço do produto" placeholder="R$ Preço">
-                        <select id="tipoProdModal" title="Tipo do produto" class="form-select mt-2">
-                            <option disabled selected hidden>Selecione o tipo</option>
-                            <option value="cortina"> Cortina</option>
-                            <option value="persiana"> Persiana</option>
-                        </select>
-                        <input id="corProdModal" class="form-control mt-2" type="text" title="Cor do produto" placeholder="Cor">
-                        <input id="modeloProdModal" class="form-control mt-2" type="text" title="Modelo do produto" placeholder="Modelo">
-                        <input class="mt-2 form-control" type="file" id="imagemProdModal" accept="image/*">
-                    </div>
-            </div>
-            <div id="footerModal" class="modal-footer">
+<div id="modaleditarProduto" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50" role="dialog" aria-labelledby="sucesso">
+    <div class="bg-white w-full max-w-lg rounded-lg shadow-lg overflow-hidden">
+        <div id="tit-cor" class="px-6 py-3 border-b flex items-center justify-between">
+            <h5 id="modal-tit" class="text-lg font-semibold text-gray-800"></h5>
+            <button onclick="document.getElementById('modaleditarProduto').classList.add('hidden')" class="text-gray-500 hover:text-gray-800 text-xl font-bold">&times;</button>
+        </div>
 
-                <button style="background-color: purple; color: white;" class="btn border" id="btn-fechar" type="button" data-bs-dismiss="modal">
-                    bt-fechar
-                </button>
+        <div id="modal-corp" class="px-6 py-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Editar produto</h3>
 
-                <button style="background-color: purple; color: white;" class="btn border" id="btn-editar" type="button" data-bs-dismiss="modal">
-                    bt-salvar
-                </button>
+            <div class="space-y-3">
+                <input disabled id="idproduto" type="text" placeholder="ID do produto"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed" />
+
+                <input id="nomeProdModal" type="text" title="Nome do produto" placeholder="Nome do produto"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+                <input id="descProdModal" type="text" title="Descrição do produto" placeholder="Descrição"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+                <input id="precoProdModal" type="number" title="Preço do produto" placeholder="R$ Preço"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+                <select id="tipoProdModal" title="Tipo do produto"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <option disabled selected hidden>Selecione o tipo</option>
+                    <option value="cortina">Cortina</option>
+                    <option value="persiana">Persiana</option>
+                </select>
+
+                <input id="corProdModal" type="text" title="Cor do produto" placeholder="Cor"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+                <input id="modeloProdModal" type="text" title="Modelo do produto" placeholder="Modelo"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+                <input type="file" id="imagemProdModal" accept="image/*"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-white file:bg-purple-600 hover:file:bg-purple-700 cursor-pointer" />
             </div>
+        </div>
+
+        <div id="footerModal" class="flex justify-end gap-3 px-6 py-4 border-t">
+            <button id="btn-fechar" type="button"
+                class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md shadow-md transition"
+                onclick="document.getElementById('modaleditarProduto').classList.add('hidden')">
+                bt-fechar
+            </button>
+
+            <button id="btn-editar" type="button"
+                class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md shadow-md transition"
+                onclick="document.getElementById('modaleditarProduto').classList.add('hidden')">
+                bt-salvar
+            </button>
         </div>
     </div>
 </div>
