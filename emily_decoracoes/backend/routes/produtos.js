@@ -16,6 +16,7 @@ const upload = multer({ storage });
 const produtosController = require('../controllers/produtosController');
 
 router.post('/inserir', upload.single('imagem'), produtosController.inserirProduto);
+router.put('/atualizar', upload.single('imagem'), produtosController.atualizarProduto);
 router.get('/consultarProdutos', produtosController.consultarProdutos);
 
 module.exports = router;

@@ -31,6 +31,37 @@ exports.inserirProduto = async (req, res) => {
     }
 };
 
+exports.atualizarProduto = async (req, res) => {
+    const{id, nome, descricao, preco, tipo, cor, modelo} = req.body;
+    let path;
+
+    if(!id || !nome || !descricao || !preco || !tipo || !cor || !modelo) {
+        return res.status(400).json({error: 'Todos os campos são obrigatórios'});
+    } 
+
+    try {
+
+        if(!req.file) {
+          const getProd = await produtos.consultar(id);
+          path = getProd[0].imagem;
+
+        } else {
+          path = req.file.path;
+        }
+
+        const results = await produtos.atualizar(id, nome, descricao, preco, tipo, cor, modelo, path);
+
+        res.status(200).json ({
+          message: 'Produto atualizado com sucesso',
+        });
+    } catch(error) {
+      console.log(error);
+      if(error.message == 'Erro ao atualizar produto'){ 
+            return res.status(500).json({ error: error.message});
+        }
+    }
+};
+
 exports.consultarProdutos = async (req, res) => {
 
     const id = req.query.id || false;

@@ -1,5 +1,6 @@
 import * as autenticador from '../services/autenticador/index.js';
-import { mostrarModal } from '../components/modal_error/modal_error.js'
+import { mostrarModal } from '../components/modal_error/modal_error.js';
+import * as sweet from '../utils/funcResponseSweetAlert.js';
 
 $(document).ready(async () => {
   const user = await autenticador.verificarLogin();
@@ -27,10 +28,9 @@ $(document).ready(async () => {
         }
     });
 
-    $('#footerModal').on('click', '#btn-editar', function() {
-      const produtos = $(this).data('data-produtos');
-      atualizarInformacoesProduto(produtos);
-  });
+    $(document).on('click', '#footerModal .btn-salvar-alt', function() {
+      atualizarInformacoesProduto();
+    });
 });
 
 $('#btn_adicionarProd').click(adicionarProduto);
@@ -134,10 +134,10 @@ async function carregarProdutos() {
 
         if (id > 0) {
           opcoes = `
-            <div class="btn-group btn-group-xs">
-              <button type="button" class="btn btn-info btn-xs btn-visualizarProduto" title="Visualizar Produto" data-id="${id}" data-imagem="${imagem}""">Visualizar</button>
-              <button type="button" class="btn btn-warning btn-xs btn-editarProduto" title="Editar produto" data-id="${id}"">Editar</button>
-              <button type="button" class="btn btn-primary btn-xs btn-excluirProduto" title="Excluir Produto" data-id="${id}"">Excluir</button>
+            <div class="btn-group btn-group-xs gap-1">
+              <button type="button" class="p-2 botoes rounded-md btn-visualizarProduto" title="Visualizar Produto" data-id="${id}" data-imagem="${imagem}""><i class="fa-solid fa-eye"></i></button>
+              <button type="button" class="p-2 bg-green-400 rounded-md hover:bg-green-600 text-white font-bold btn-editarProduto" title="Editar produto" data-id="${id}""><i class="fa-solid fa-pen-to-square"></i></button>
+              <button type="button" class="p-2 bg-red-600 rounded-md hover:bg-red-700 text-white font-bold btn-excluirProduto" title="Excluir Produto" data-id="${id}""><i class="fa-solid fa-x"></i></button>
             </div>
           `;
         }
@@ -209,11 +209,14 @@ function visualizarProduto(id, imagem) {
 }
 
 async function editarProduto (id) {
-  try {
-    const respHtml = await fetch('../components/modal_editarProduto/modal_editarProduto.html');
-    const html = await respHtml.text();
+    try {
+      const respHtml = await fetch('../components/modal_editarProduto/modal_editarProduto.html');
+      const html = await respHtml.text();
 
-    $('main').append(html);
+      $('main').append(html);
+    } catch(error) {
+      mostrarModal('danger', 'Erro ao editar o produto', `${error}`, 'Fechar');
+    }
 
     try {
       const resposta = await fetch(`http://localhost:3001/api/produtos/consultarProdutos?id=${id}`, {
@@ -228,7 +231,7 @@ async function editarProduto (id) {
       if(resposta.status == 200) {
         const {produtos} = dados;
 
-        $("#idproduto").val(`IDPRODUTO: ${produtos[0].id}`);
+        $("#idproduto").val(`${produtos[0].id}`);
         $("#nomeProdModal").val(produtos[0].nome);
         $("#descProdModal").val(produtos[0].descricao);
         $("#precoProdModal").val(produtos[0].preco);
@@ -243,7 +246,7 @@ async function editarProduto (id) {
             Fechar
           </button>
 
-          <button style="background-color: purple; color: white;" class="btn border" data-produtos="${produtos}"  id="btn-editar" type="button">
+          <button style="background-color: purple; color: white;" class="btn border btn-salvar-alt" id="btn-editar" type="button">
             Salvar Alterações
           </button>
           `
@@ -258,13 +261,70 @@ async function editarProduto (id) {
 
     $("#modaleditarProduto").modal('show');
 
-  } catch(error) {
-    mostrarModal('danger', 'Erro ao editar o produto', `${error}`, 'Fechar');
-  }
 };
 
-function atualizarInformacoesProduto(produtos) {
-  alert(`chegou com o produto id: ${produtos[0].id}`)
+async function validarAtualizacaoProduto() {
+  let dados = {
+    id: Number($("#idproduto").val()),
+    nome: $("#nomeProdModal").val(),
+    descricao: $("#descProdModal").val(),
+    preco: Number($("#precoProdModal").val()),
+    tipo: $("#tipoProdModal").val(),
+    cor: $("#corProdModal").val(),
+    modelo: $("#modeloProdModal").val(),
+    imagem: $("#imagemProdModal")[0].files[0] || false,
+  }
+
+  const resp = await sweet.msgQuestion();
+
+  if(resp.value) {
+
+      if(!dados.imagem) {
+        return dados;
+      } else if(dados.imagem) {
+          const formData = new FormData();
+          for(const [chave, valor] of Object.entries(dados)) {
+            formData.append(chave, valor) 
+          }
+          
+          return formData;
+        } 
+
+  } else {
+    return false;
+  }
+}
+
+async function atualizarInformacoesProduto() {
+  let dados = await validarAtualizacaoProduto();
+
+  console.log(dados)
+
+  if(dados) {
+    try {
+
+      const resposta = await fetch('http://localhost:3001/api/produtos/atualizar', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(dados)
+      });
+
+      const dadosResp = await resposta.json();
+
+      if(resposta.status == 200) {
+        sweet.msgSuccess('Produto atualizado com sucesso!')
+      } else {
+        alert(`Erro ao atualizar o produto: ${dados.error}`)
+      }
+
+    } catch(error) {
+      console.log(error)
+    }
+  } else {
+    //faça nada
+  }
 }
 
 function excluirProduto(id) {
