@@ -31,6 +31,7 @@ $(document).ready(async () => {
     $(document).on('click', '#footerModal .btn-salvar-alt', function() {
       atualizarInformacoesProduto();
     });
+
 });
 
 $('#btn_adicionarProd').click(adicionarProduto);
@@ -275,6 +276,15 @@ async function validarAtualizacaoProduto() {
     imagem: $("#imagemProdModal")[0].files[0] || false,
   }
 
+  for(let registro in dados) {
+    if(!dados[registro]) {
+      if(registro != 'imagem') {
+        alert('O unico campo que pode ser vazio é o de imagem!');
+        return false;
+      }
+    }
+  }
+
   const resp = await sweet.msgQuestion();
 
   if(resp.value) {
@@ -298,8 +308,6 @@ async function validarAtualizacaoProduto() {
 async function atualizarInformacoesProduto() {
   let dados = await validarAtualizacaoProduto();
 
-  console.log(dados)
-
   if(dados) {
     try {
 
@@ -314,19 +322,47 @@ async function atualizarInformacoesProduto() {
       const dadosResp = await resposta.json();
 
       if(resposta.status == 200) {
-        sweet.msgSuccess('Produto atualizado com sucesso!')
+        await sweet.msgSuccess('Produto atualizado com sucesso!')
+        location.reload();
       } else {
         alert(`Erro ao atualizar o produto: ${dados.error}`)
       }
 
     } catch(error) {
-      console.log(error)
+      sweet.msgError(`Erro ao atualizar o produto: ${error}`);
     }
   } else {
     //faça nada
   }
 }
 
-function excluirProduto(id) {
+async function excluirProduto(id) {
 
+  const resp = await sweet.msgQuestion('Você realmente deseja excluir o produto?');
+
+  if(resp.value) {
+
+    try{
+      const resposta = await fetch(`http://localhost:3001/api/produtos/excluir?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+              'Content-Type': 'application/json'
+            }
+      });
+
+      const dados = await resposta.json();
+
+      if(resposta.status == 200) {
+        await sweet.msgSuccess('Produto excluido com sucesso!')
+        location.reload();
+      } else {
+         sweet.msgError(`Erro ao excluir o produto: ${dados.error}`);
+      }
+    } catch(error) {
+      sweet.msgError(`Erro ao excluir o produto: ${error}`);
+    }
+
+  } else {
+    return false;
+  }
 }
