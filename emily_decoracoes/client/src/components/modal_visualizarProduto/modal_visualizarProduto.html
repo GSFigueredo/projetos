@@ -1,0 +1,31 @@
+<div class="modal fade modaisDinamicas" id="modalVisualizarProduto" tabindex="-1" role="dialog" aria-labelledby="sucesso">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="tit-cor">
+                <h5 id="modal-tit" class="modal-title"></h5>
+            </div>
+            <div id="modal-corp" class="modal-body">
+                <div class="card-header"> <h3 class="titulo_cards card-title">Visualizar produto</h3></div> <br>
+                    <div class="card-body"> 
+                        <input disabled id="idproduto" class="form-control" type="text" placeholder="id do produto">
+                        <input disabled id="nomeProdModal" class="form-control mt-2" type="text" title="Nome do produto" placeholder="Nome do produto">
+                        <input disabled id="descProdModal" class="form-control mt-2" type="text" title="Descrição do produto" placeholder="Descrição">
+                        <input disabled id="precoProdModal" class="form-control mt-2" type="text" title="Preço do produto" placeholder="R$ Preço">
+                        <select disabled id="tipoProdModal" title="Tipo do produto" class="form-select mt-2">
+                            <option disabled selected hidden>Selecione o tipo</option>
+                            <option value="cortina"> Cortina</option>
+                            <option value="persiana"> Persiana</option>
+                        </select>
+                        <input disabled id="corProdModal" class="form-control mt-2" type="text" title="Cor do produto" placeholder="Cor">
+                        <input disabled id="modeloProdModal" class="form-control mt-2" type="text" title="Modelo do produto" placeholder="Modelo">
+                        <img class="mt-2 rounded-md shadow-md" id="imagemProduto" src="" alt="">
+                    </div>
+            </div>
+            <div id="footerModal" class="modal-footer">
+                <button style="background-color: purple; color: white;" class="btn border fechar-modal-visualizao" id="btn-fechar" type="button" data-bs-dismiss="modal">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

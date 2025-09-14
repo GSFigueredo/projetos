@@ -2,6 +2,7 @@ import * as autenticador from '../services/autenticador/index.js';
 import { mostrarModal } from '../components/modal_error/modal_error.js';
 import * as sweet from '../utils/funcResponseSweetAlert.js';
 
+/* ---------------------------------------- CAPTURAR EVENTOS ---------------------------------------- */
 $(document).ready(async () => {
   const user = await autenticador.verificarLogin();
 
@@ -17,8 +18,7 @@ $(document).ready(async () => {
         const id = $(this).data('id');
 
         if ($(this).hasClass('btn-visualizarProduto')) {
-            const imagem = $(this).data('imagem');
-            visualizarProduto(id, imagem);
+            visualizarProduto(id);
 
         } else if ($(this).hasClass('btn-editarProduto')) {
             editarProduto(id);
@@ -28,14 +28,22 @@ $(document).ready(async () => {
         }
     });
 
+    $(document).on('hidden.bs.modal', '.modaisDinamicas', function () {
+      const modalAtual = bootstrap.Modal.getInstance(this);
+      modalAtual.dispose();
+      $(this).remove();
+    });
+
     $(document).on('click', '#footerModal .btn-salvar-alt', function() {
       atualizarInformacoesProduto();
     });
-
+    
 });
 
 $('#btn_adicionarProd').click(adicionarProduto);
+/* ---------------------------------------- FIM CAPTURAR EVENTOS ---------------------------------------- */
 
+/* ---------------------------------------- NAVEGAÇÃO DINAMICA ---------------------------------------- */
 function usuarioLogado(user) {
 
     let linkLogin = $("#link_login");
@@ -60,7 +68,9 @@ function usuarioLogado(user) {
       });
     } 
 }
+/* ---------------------------------------- FIM NAVEGAÇÃO DINAMICA ---------------------------------------- */
 
+/* ---------------------------------------- ROTINA DE INCLUSÃO DE PRODUTOS ---------------------------------------- */
 async function adicionarProduto () {
 
     const produto = {
@@ -105,7 +115,9 @@ async function adicionarProduto () {
     }
 
 }
+/* ---------------------------------------- FIM ROTINA DE INCLUSÃO DE PRODUTOS ---------------------------------------- */
 
+/* ---------------------------------------- DATATABLE DE PRODUTOS ---------------------------------------- */
 async function carregarProdutos() {
   
   try {
@@ -136,7 +148,7 @@ async function carregarProdutos() {
         if (id > 0) {
           opcoes = `
             <div class="btn-group btn-group-xs gap-1">
-              <button type="button" class="p-2 botoes rounded-md btn-visualizarProduto" title="Visualizar Produto" data-id="${id}" data-imagem="${imagem}""><i class="fa-solid fa-eye"></i></button>
+              <button type="button" class="p-2 botoes rounded-md btn-visualizarProduto" title="Visualizar Produto" data-id="${id}""><i class="fa-solid fa-eye"></i></button>
               <button type="button" class="p-2 bg-green-400 rounded-md hover:bg-green-600 text-white font-bold btn-editarProduto" title="Editar produto" data-id="${id}""><i class="fa-solid fa-pen-to-square"></i></button>
               <button type="button" class="p-2 bg-red-600 rounded-md hover:bg-red-700 text-white font-bold btn-excluirProduto" title="Excluir Produto" data-id="${id}""><i class="fa-solid fa-x"></i></button>
             </div>
@@ -204,11 +216,55 @@ function criarDataTableProdutos(produtosArray) {
       ]
     });
 }
+/* ---------------------------------------- FIM DATATABLE DE PRODUTOS ---------------------------------------- */
 
-function visualizarProduto(id, imagem) {
+/* ---------------------------------------- ROTINA DE VISUALIZAÇÃO PRODUTOS ---------------------------------------- */
+async function visualizarProduto(id) {
+  try {
+    const respHtml = await fetch('../components/modal_visualizarProduto/modal_visualizarProduto.html');
+    const html = await respHtml.text();
 
+    $('main').append(html);
+  } catch (error) {
+    sweet.msgError(`Erro ao carregar a modal: ${error}`);
+  };
+
+  try {
+    const resposta = await fetch(`http://localhost:3001/api/produtos/consultarProdutos?id=${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+    }});
+
+    const dados = await resposta.json();
+
+      if(resposta.status == 200) {
+        const {produtos} = dados;
+
+        $("#idproduto").val(`IDPRODUTO: ${produtos[0].id}`);
+        $("#nomeProdModal").val(`NOME: ${produtos[0].nome}`);
+        $("#descProdModal").val(`DESCRIÇÃO: ${produtos[0].descricao}`);
+        $("#precoProdModal").val(`PREÇO: R$${produtos[0].preco}`);
+        $("#tipoProdModal").val(produtos[0].tipo);
+        $("#corProdModal").val(`COR: ${produtos[0].cor}`);
+        $("#modeloProdModal").val(`MODELO: ${produtos[0].modelo}`);
+        $("#imagemProduto").attr({
+          "src": produtos[0].imagem.replace('public', 'http://localhost:3001')
+        });
+
+      } else {
+        mostrarModal('danger', 'Erro ao consultar produtos', `${dados.error}`, 'Fechar');
+      }
+
+  }catch (error) {
+    sweet.msgError(`Erro ao visualizar o produto: ${error}`);
+  }
+
+  $("#modalVisualizarProduto").modal('show');
 }
+/* ---------------------------------------- FIM ROTINA DE VISUALIZAÇÃO PRODUTOS ---------------------------------------- */
 
+/* ---------------------------------------- ROTINA DE EDIÇÃO DE PRODUTOS ---------------------------------------- */
 async function editarProduto (id) {
     try {
       const respHtml = await fetch('../components/modal_editarProduto/modal_editarProduto.html');
@@ -241,17 +297,6 @@ async function editarProduto (id) {
         $("#modeloProdModal").val(produtos[0].modelo);
         //$("#imagemProdModal").val(produtos[0].imagem);
 
-        $('#footerModal').html(
-          `
-          <button style="background-color: purple; color: white;" class="btn border" id="btn-fechar" type="button" data-bs-dismiss="modal">
-            Fechar
-          </button>
-
-          <button style="background-color: purple; color: white;" class="btn border btn-salvar-alt" id="btn-editar" type="button">
-            Salvar Alterações
-          </button>
-          `
-        )
       } else {
         mostrarModal('danger', 'Erro ao consultar produtos', `${dados.error}`, 'Fechar');
       }
@@ -325,7 +370,7 @@ async function atualizarInformacoesProduto() {
         await sweet.msgSuccess('Produto atualizado com sucesso!')
         location.reload();
       } else {
-        alert(`Erro ao atualizar o produto: ${dados.error}`)
+        alert(`Erro ao atualizar o produto: ${dadosResp.error}`)
       }
 
     } catch(error) {
@@ -336,6 +381,9 @@ async function atualizarInformacoesProduto() {
   }
 }
 
+/* ---------------------------------------- FIM ROTINA DE EDIÇÃO DE PRODUTOS ---------------------------------------- */
+
+/* ---------------------------------------- ROTINA DE EXCLUSÃO DE PRODUTOS ---------------------------------------- */
 async function excluirProduto(id) {
 
   const resp = await sweet.msgQuestion('Você realmente deseja excluir o produto?');
@@ -366,3 +414,4 @@ async function excluirProduto(id) {
     return false;
   }
 }
+/* ---------------------------------------- FIM ROTINA DE EXCLUSÃO DE PRODUTOS ---------------------------------------- */
