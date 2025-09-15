@@ -50,3 +50,9 @@ body{
     background-color: #c93c3c;
     width: 100%;
 }
+
+.linha_roxa {
+    height: 2px;
+    background-color: purple;
+    width: 100%;
+}

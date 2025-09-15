@@ -677,6 +677,26 @@ video {
   width: 100%;
 }
 
+.w-3\/4 {
+  width: 75%;
+}
+
+.w-\[1050\] {
+  width: 1050;
+}
+
+.w-\[50\%\] {
+  width: 50%;
+}
+
+.w-\[100\%\] {
+  width: 100%;
+}
+
+.w-\[75\%\] {
+  width: 75%;
+}
+
 .max-w-6xl {
   max-width: 72rem;
 }
@@ -899,6 +919,12 @@ body{
 .linha_vermelha {
   height: 2px;
   background-color: #c93c3c;
+  width: 100%;
+}
+
+.linha_roxa {
+  height: 2px;
+  background-color: purple;
   width: 100%;
 }
 
