@@ -62,6 +62,25 @@ exports.atualizarProduto = async (req, res) => {
     }
 };
 
+exports.excluirProduto = async (req, res) => {
+  const id = req.query.id || false;
+
+  if(id) {
+    try {
+        const results = await produtos.excluir(id);
+
+        res.status(200).json ({
+            message: 'Produtos excluido com sucesso!'
+        });
+    } catch (error) {
+      if(error.message == 'Erro ao excluir produto'){
+            console.log(error.message);
+            res.status(500).json({ error: error.message});
+        }
+    }
+  }
+}
+
 exports.consultarProdutos = async (req, res) => {
 
     const id = req.query.id || false;

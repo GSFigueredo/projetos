@@ -43,6 +43,21 @@ const produtos = {
       });
     },
 
+    excluir(id) {
+      return new Promise ((resolve, reject) => {
+        let query = `delete from produtos where id = ?`;
+
+        dbConnection.query(query, [id], (error, results) => {
+          if(error) {
+            console.log(error)
+            return reject(new Error('Erro ao excluir produto'));
+          }
+
+          resolve(results);
+        });
+      });
+    },
+
     consultar(id) {
       return new Promise((resolve, reject) => {
           let query = `select * from produtos where 1 = 1`;

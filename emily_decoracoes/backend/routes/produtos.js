@@ -17,6 +17,7 @@ const produtosController = require('../controllers/produtosController');
 
 router.post('/inserir', upload.single('imagem'), produtosController.inserirProduto);
 router.put('/atualizar', upload.single('imagem'), produtosController.atualizarProduto);
+router.delete('/excluir', produtosController.excluirProduto);
 router.get('/consultarProdutos', produtosController.consultarProdutos);
 
 module.exports = router;
